@@ -5,7 +5,8 @@
   "author": "feverdestiny <feverdestiny@163.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev":
+      "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
@@ -16,6 +17,7 @@
   "dependencies": {
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.7",
+    "svg-sprite-loader": "^3.6.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
@@ -81,9 +83,5 @@
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"]
 }
