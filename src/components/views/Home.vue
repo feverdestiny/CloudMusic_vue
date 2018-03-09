@@ -6,10 +6,11 @@
           网易云
         </div>
         <ul class="cm-nav">
-          <li v-for="(item,index) in navList" :key="index">
+          <li v-for="(item,index) in navList" @click="setNavActive(item)" :key="index" :class="item.index==navActive?'nav-active':''">
             <span>
               <a>{{item.name}}</a>
             </span>
+            <div v-show="item.index==navActive" class="arrow-up"></div>
           </li>
         </ul>
         <div class="cm-tophead f-pr" @mouseenter='mouseenter' @mouseleave='mouseleave'>
@@ -41,23 +42,28 @@ export default {
   data() {
     return {
       showLogin: false,
+      navActive: 1,
       navList: [
-        { name: "发现音乐", path: "/" },
-        { name: "我的音乐", path: "/" },
-        { name: "朋友", path: "/" },
-        { name: "商城", path: "/" },
-        { name: "音乐人", path: "/" },
-        { name: "下载客户端", path: "/" }
+        { index: 1, name: "发现音乐", path: "/" },
+        { index: 2, name: "我的音乐", path: "/my" },
+        { index: 3, name: "朋友", path: "/" },
+        { index: 4, name: "商城", path: "/" },
+        { index: 5, name: "音乐人", path: "/" },
+        { index: 6, name: "下载客户端", path: "/" }
       ],
       loginList: [
-        { name: "手机号登录", icon: "phone" },
-        { name: "微信登录", icon: "wechat" },
-        { name: "QQ登录", icon: "qq" },
-        { name: "新浪微博登录", icon: "weibo" }
+        { index: 1, name: "手机号登录", icon: "phone" },
+        { index: 2, name: "微信登录", icon: "wechat" },
+        { index: 3, name: "QQ登录", icon: "qq" },
+        { index: 4, name: "新浪微博登录", icon: "weibo" }
       ]
     };
   },
   methods: {
+    setNavActive(item) {
+      this.navActive = item.index;
+      this.$router.push(item.path);
+    },
     mouseenter(event) {
       console.log("鼠标移入");
       this.showLogin = true;
@@ -97,6 +103,17 @@ export default {
         list-style: none;
         font-size: 14px;
         height: 70px;
+        position: relative;
+        .arrow-up {
+          position: absolute;
+          bottom: 0px;
+          left: 44%;
+          width: 0;
+          height: 0;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-bottom: 6px solid #c20c0c;
+        }
         span {
           color: #ccc;
           a {
@@ -105,6 +122,7 @@ export default {
             line-height: 70px;
           }
         }
+
         &:hover {
           cursor: pointer;
           background: #000;
@@ -113,6 +131,14 @@ export default {
           }
           // color: red !important;
         }
+      }
+      .nav-active {
+        cursor: pointer;
+        background: #000;
+        a {
+          color: #fff;
+        }
+        // color: red !important;
       }
     }
   }
