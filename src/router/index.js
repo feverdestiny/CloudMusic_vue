@@ -17,8 +17,25 @@ export default new Router({
       children: [
         {
           path: "/",
-          name: "discover",
-          component: _resolve("views/Discover/index")
+          component: _resolve("views/Discover/index"),
+          children: [
+            {
+              path: "/",
+              redirect: '/discover'
+            }, {
+              path: "/discover",
+              name: "推荐",
+              component: _resolve("views/Discover/recommend/index")
+            }, {
+              path: "/discover/toplist",
+              name: "toplist",
+              component: _resolve("views/Discover/toplist/index")
+            }
+          ]
+        }, {
+          path: "/my",
+          name: "我的音乐",
+          component: _resolve("views/My/index")
         }, {
           path: "/icon",
           name: "Icon",
