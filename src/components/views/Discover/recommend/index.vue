@@ -1,6 +1,7 @@
 <template>
     <div>
         <carousel />
+      <div>热门推荐</div>
     </div>
 </template>
 
