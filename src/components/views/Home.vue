@@ -200,11 +200,5 @@ export default {
     z-index: 1;
   }
 }
-.f-cb:after {
-  clear: both;
-  content: ".";
-  display: block;
-  height: 0;
-  visibility: hidden;
-}
+
 </style>

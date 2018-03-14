@@ -15,7 +15,16 @@ export default {
   margin: 0px;
   padding: 0px;
 }
-#app{
-  background: #f5f5f5
+#app {
+  background: #f5f5f5;
+}
+.f-cb {
+}
+.f-cb:after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
 }
 </style>
