@@ -9,11 +9,14 @@
         <base-icon icon="arrow" />
       </a>
       <div class="dot">
-        <a :class="['pg',index===activeImage?'pgActive':'']" v-for="(item,index) in imgList" :key="index" @click="setNewActive(index)" >
-          <base-icon icon="dian"/>
+        <a :class="['pg',index===activeImage?'pgActive':'']" v-for="(item,index) in imgList" :key="index" @click="setNewActive(index)">
+          <base-icon icon="dian" />
         </a>
       </div>
-      <div class="dow"></div>
+      <div class="dow">
+        <a class="btn">asd</a>
+        <p> PC 安卓 iPhone WP iPad Mac 六大客户端</p>
+      </div>
     </div>
   </div>
 </template>
@@ -96,6 +99,7 @@ export default {
   @include wh;
   position: relative;
   margin: 0 auto;
+
   .ban {
     @include wh;
     .btnl {
@@ -159,6 +163,34 @@ export default {
       right: -1px;
       width: 254px;
       height: 336px;
+      background: url("../../../../assets/images/download.png");
+      -moz-box-shadow: 10px 0px 20px rgba(51, 51, 51, 0.4),
+        -10px 0px 20px rgba(51, 51, 51, 0.4);
+      -webkit-box-shadow: 10px 0px 20px rgba(51, 51, 51, 0.4),
+        -10px 0px 20px rgba(51, 51, 51, 0.4);
+      box-shadow: 10px 0px 20px rgba(51, 51, 51, 0.4),
+        -10px 0px 20px rgba(51, 51, 51, 0.4);
+      .btn {
+        display: block;
+        width: 215px;
+        height: 56px;
+        margin: 212px 0 0 19px;
+        background-position: 0 9999px;
+        text-indent: -9999px;
+
+        &:hover {
+          cursor: pointer;
+          background: url("../../../../assets/images/download.png")no-repeat 0 0;
+          background-position: 0 -340px;
+          text-decoration: none;
+        }
+      }
+      p {
+        font-size: 12px;
+        margin: 10px auto;
+        text-align: center;
+        color: #8d8d8d;
+      }
     }
   }
 }
