@@ -22,12 +22,19 @@
             </span>
           </div>
           <ul class="wrap-list f-cb">
-            <li>
+            <li v-for="(item,index) in wrapList" :key="index">
               <div class="wrap-list-cover-item">
-                <img src='../../../../assets/images/18903903416776929.jpg' />
+                <img :src='item.src' />
                 <a class="mark"></a>
                 <div class="bottom">
                   <a class="play"></a>
+                  <span class="icon">
+                    <base-icon icon="music" />
+                  </span>
+                  <span class="num">{{item.num}}</span>
+                </div>
+                <div class="dec">
+                  {{item.dec}}
                 </div>
               </div>
             </li>
@@ -44,11 +51,81 @@ export default {
   data() {
     return {
       tabsList: [
-        { index: 1, name: "华语" },
-        { index: 2, name: "流行" },
-        { index: 3, name: "摇滚" },
-        { index: 4, name: "民谣" },
-        { index: 5, name: "电子" }
+        {
+          index: 1,
+          name: "华语"
+        },
+        {
+          index: 2,
+          name: "流行"
+        },
+        {
+          index: 3,
+          name: "摇滚"
+        },
+        {
+          index: 4,
+          name: "民谣"
+        },
+        {
+          index: 5,
+          name: "电子"
+        }
+      ],
+      wrapList: [
+        {
+          index: 1,
+          src: require("assets/images/18903903416776929.jpg"),
+          num: "117万",
+          dec: "伤心回忆寄存馆|今日营业中"
+        },
+        {
+          index: 2,
+          src: require("assets/images/18903903416776929.jpg"),
+
+          num: "117万",
+          dec: "伤心回忆寄存馆|今日营业中"
+        },
+        {
+          index: 3,
+          src: require("assets/images/18903903416776929.jpg"),
+
+          num: "117万",
+          dec: "伤心回忆寄存馆|今日营业中"
+        },
+        {
+          index: 4,
+          src: require("assets/images/18903903416776929.jpg"),
+
+          num: "117万",
+          dec: "伤心回忆寄存馆|今日营业中"
+        },
+        {
+          index: 5,
+          src: require("assets/images/18903903416776929.jpg"),
+          num: "117万",
+          dec: "伤心回忆寄存馆|今日营业中"
+        },
+        {
+          index: 6,
+          src: require("assets/images/18903903416776929.jpg"),
+
+          num: "117万",
+          dec: "伤心回忆寄存馆|今日营业中"
+        },
+        {
+          index: 7,
+          src: require("assets/images/18903903416776929.jpg"),
+
+          num: "117万",
+          dec: "伤心回忆寄存馆|今日营业中"
+        },
+        {
+          index: 8,
+          src: require("assets/images/18903903416776929.jpg"),
+          num: "117万",
+          dec: "伤心回忆寄存馆|今日营业中"
+        }
       ]
     };
   }
@@ -113,18 +190,17 @@ export default {
           }
         }
         .wrap-list {
-          margin: 20px 0 0 -42px;
+          margin: 20px 0 0 -36px;
           li {
             list-style: none;
             width: 140px;
             height: 204px;
-            padding-left: 42px;
-            float: left;
+            padding-left: 42px; // float: left;
             display: inline-block;
             width: 140px;
             height: 188px;
             overflow: hidden;
-            padding: 0 0 30px 50px;
+            padding: 0 0 30px 35px;
             line-height: 1.4;
             .wrap-list-cover-item {
               width: 140px;
@@ -137,13 +213,13 @@ export default {
                 height: 100%;
               }
               .mark {
-                background-position: 0 0;
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
                 background: url("../../../../assets/images/coverall.png")no-repeat;
+                background-position: 0 0;
               }
               .bottom {
                 position: absolute;
@@ -151,18 +227,38 @@ export default {
                 left: 0;
                 width: 100%;
                 height: 27px;
-                background-position: 0 -537px;
                 color: #ccc;
                 background: url("../../../../assets/images/coverall.png")no-repeat;
+                background-position: 0 -537px;
+
                 .play {
                   position: absolute;
                   right: 10px;
                   bottom: 5px;
                   width: 16px;
                   height: 17px;
-                  background-position: 0 0;
                   background: url("../../../../assets/images/iconall.png")no-repeat;
+                  background-position: 0 0;
+                  &:hover {
+                    cursor: pointer;
+                    background-position: 0 -60px;
+                  }
                 }
+                .icon {
+                  float: left;
+                  width: 14px;
+                  height: 11px;
+                  margin: 3px 10px 0px 5px;
+                }
+                .num {
+                  float: left;
+                  font-size: 12px;
+                  margin: 7px 0 0 0;
+                }
+              }
+              .dec {
+                margin: 8px 0 3px;
+                font-size: 14px;
               }
             }
           }
@@ -178,5 +274,3 @@ export default {
   }
 }
 </style>
-
-

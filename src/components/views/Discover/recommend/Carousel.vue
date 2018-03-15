@@ -56,6 +56,7 @@ export default {
     };
   },
   methods: {
+    asd() {},
     showImg(index) {
       if (this.activeImage === index) return true;
       return false;
