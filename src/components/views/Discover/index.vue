@@ -20,10 +20,10 @@ export default {
       navList: [
         { index: 1, name: "推荐", path: "/" },
         { index: 2, name: "排行榜", path: "/discover/toplist" },
-        { index: 3, name: "歌单", path: "/" },
-        { index: 4, name: "主播电台", path: "/" },
-        { index: 5, name: "歌手", path: "/" },
-        { index: 6, name: "新碟上架", path: "/" }
+        { index: 3, name: "歌单", path: "/discover/playlist" },
+        { index: 4, name: "主播电台", path: "/discover/djradio" },
+        { index: 5, name: "歌手", path: "/discover/artist" },
+        { index: 6, name: "新碟上架", path: "/discover/album" }
       ]
     };
   },

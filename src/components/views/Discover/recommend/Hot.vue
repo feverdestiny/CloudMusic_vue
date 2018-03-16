@@ -24,22 +24,38 @@
           <ul class="wrap-list f-cb">
             <li v-for="(item,index) in wrapList" :key="index">
               <div class="wrap-list-cover-item">
-                <img :src='item.src' />
+                <img :src='item.picUrl' />
                 <a class="mark"></a>
                 <div class="bottom">
                   <a class="play"></a>
                   <span class="icon">
                     <base-icon icon="music" />
                   </span>
-                  <span class="num">{{item.num}}</span>
+                  <span class="num">{{numFix(item.playCount)}}</span>
                 </div>
                 <div class="dec">
-                  {{item.dec}}
+                  {{item.name}}
                 </div>
               </div>
             </li>
           </ul>
+          <div class="m-clmnad"></div>
+          <div class="m-new">
+            <div class="wrap-head">
+              <base-icon style="float:left;color:red;font-size:25px;" icon="kongdian" />
+              <a class="wrap-head-title">
+                新碟上架
+              </a>
+              <span class="wrap-head-more">
+                <a>更多</a>
+                <base-icon class="wrap-head-arrow" icon="right" />
 
+              </span>
+            </div>
+            <div class="m-disk">
+              <div class="inner"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -128,6 +144,26 @@ export default {
         }
       ]
     };
+  },
+
+  created() {
+    this.getPersonalized();
+  },
+  methods: {
+    async getPersonalized() {
+      const Res = await this.$http.get("/personalized");
+      if (Res && Res.code === 200) {
+        this.wrapList = Res.result
+          .sort((a, b) => {
+            return b.playCount - a.playCount;
+          })
+          .slice(0, 8);
+      }
+    },
+    numFix(num) {
+      // return num > 9999 ? Math.floor(num / 1000) / 10 + "万" : num;
+      return num > 9999 ? Math.floor(num / 10000) + "万" : num;
+    }
   }
 };
 </script>
@@ -260,6 +296,26 @@ export default {
                 margin: 8px 0 3px;
                 font-size: 14px;
               }
+            }
+          }
+        }
+        .m-clmnad {
+          position: relative;
+          margin: 0 0 35px;
+        }
+        .m-new {
+          margin: 0px 0 0px;
+          .m-disk {
+            position: relative;
+            zoom: 1;
+            height: 186px;
+            margin: 20px 0 37px;
+            border: 1px solid #d3d3d3;
+            .inner {
+              height: 184px;
+              padding-left: 16px;
+              background: #f5f5f5;
+              border: 1px solid #fff;
             }
           }
         }
