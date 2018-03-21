@@ -194,7 +194,42 @@
         </div>
       </div>
     </div>
-    <div class="m-hot-right">2222222</div>
+    <div class="m-hot-right">
+      <div class="m-myinfo m-myinfo-1 sg sg1">
+        <p class="note">
+          登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机
+        </p>
+        <div class="btn sg sg2">用户登录</div>
+      </div>
+      <div class="m-signer">
+        <h3 class="hd3">
+          <span style="float:left">热门歌手</span>
+          <a >查看全部 ></a>
+        </h3>
+      </div>
+      <ul class="m-enter f-cb">
+        <li v-for="(item,index) in artistsList" :key="index">
+          <a class="item">
+            <div class="head">
+              <img :src='item.img1v1Url'/>
+            </div>
+            <div class="ifo">
+              <h4>
+                <span class="nm m-hide" style="font-size:14px">{{item.name}}</span>
+              </h4>
+              <p class="m-hide" style="color:#666">热门歌手</p>
+            </div>
+          </a>
+        </li>
+  
+        
+      </ul>
+      <div>
+        <a class="m-btn2 btn2-1">
+          <i>申请成为网易音乐人</i>
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -283,7 +318,8 @@ export default {
         upList: [],
         newList: [],
         orgList: []
-      }
+      },
+      artistsList: []
     };
   },
 
@@ -293,10 +329,21 @@ export default {
     this.topList.upList = await this.getTop(3);
     this.topList.newList = await this.getTop(0);
     this.topList.orgList = await this.getTop(2);
-
+    this.getArtists();
     console.log("top", this.topList.upList);
   },
   methods: {
+    async getArtists() {
+      const Res = await this.$http.get("/top/artists", {
+        params: {
+          offset: 0,
+          limit: 5
+        }
+      });
+      if (Res && Res.code === 200) {
+        this.artistsList = Res.artists;
+      }
+    },
     /**
      * 热门推荐
      */
@@ -369,6 +416,8 @@ export default {
   background-color: #fff;
   border: 1px solid #d3d3d3;
   border-width: 0 1px;
+  background: url("../../../../assets/images/wrap1.png")repeat-y 100% 100%;
+
   .m-hot-left {
     float: left;
     width: 100%;
@@ -813,6 +862,153 @@ export default {
     float: right;
     width: 250px;
     zoom: 1;
+    font-size: 12px;
+    .m-myinfo {
+      height: 165px;
+      padding-top: 20px;
+      .note {
+        width: 205px;
+        margin: 0 auto;
+        padding: 16px 0;
+        line-height: 22px;
+        color: #666;
+      }
+      .btn {
+        display: block;
+        width: 100px;
+        height: 31px;
+        line-height: 31px;
+        text-align: center;
+        color: #fff;
+        text-shadow: 0 1px 0 #8a060b;
+      }
+    }
+    .m-signer {
+      margin-top: 15px;
+      .hd3 {
+        font-size: 12px;
+        position: relative;
+        height: 23px;
+        margin: 0 20px;
+        border-bottom: 1px solid #ccc;
+        color: #333;
+        a {
+          float: right;
+          font-weight: normal;
+          color: #666;
+          &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    .m-enter {
+      margin: 6px 0 14px 20px;
+      li {
+        list-style: none;
+        margin-top: 14px;
+        overflow: hidden;
+        .item {
+          float: left;
+          width: 210px;
+          height: 62px;
+          text-decoration: none;
+          background: #fafafa;
+          .head {
+            float: left;
+            width: 62px;
+            height: 62px;
+            img {
+              float: left;
+              width: 62px;
+              height: 62px;
+            }
+          }
+          .ifo {
+            float: left;
+            width: 133px;
+            height: 60px;
+            padding-left: 14px;
+            border: 1px solid #e9e9e9;
+            border-left: none;
+            h4 {
+              margin-top: 8px;
+              .nm {
+                width: 90%;
+              }
+            }
+
+            p {
+              width: 90%;
+              margin-top: 8px;
+            }
+          }
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    .m-btn2 {
+      margin-left: 20px;
+      border-radius: 4px;
+      padding: 0 5px 0 0;
+      white-space: nowrap;
+      display: inline-block;
+      height: 31px;
+      line-height: 31px;
+      overflow: hidden;
+      vertical-align: top;
+      text-align: center;
+      cursor: pointer;
+    }
+    .btn2-1 {
+      color: #333;
+      background: url("../../../../assets/images/button2.png")no-repeat 0 9999px;
+      background-position: right -100px;
+      &:hover {
+        color: #333;
+        background-position: right -182px;
+      }
+
+      i {
+        display: inline-block;
+        height: 31px;
+        line-height: 31px;
+        overflow: hidden;
+        vertical-align: top;
+        text-align: center;
+        cursor: pointer;
+        width: 170px;
+        font-weight: bold;
+        color: #333;
+
+        padding: 0 15px 0 20px;
+        pointer-events: none;
+        background: url("../../../../assets/images/button2.png")no-repeat;
+        background-position: 0 -59px;
+        font-style: normal;
+        // text-align: left;
+        font-size: inherit;
+      }
+    }
+    .m-myinfo-1 {
+      height: 126px;
+      padding-top: 0;
+      .btn {
+        margin: 0 auto;
+      }
+    }
+    .sg {
+      background: url("../../../../assets/images/index.png")no-repeat;
+    }
+    .sg1 {
+      background-position: 0 0;
+    }
+    .sg2 {
+      background-position: 0 -195px;
+    }
   }
   .m-hide {
     overflow: hidden;
