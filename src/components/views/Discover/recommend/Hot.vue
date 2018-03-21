@@ -5,7 +5,6 @@
       <div class="m-hot-left-c ">
         <div class="m-hot-left-c-wrap">
           <div class="wrap-head">
-            <base-icon style="float:left;color:red;font-size:25px;" icon="kongdian" />
             <a class="wrap-head-title">
               热门推荐
             </a>
@@ -17,8 +16,7 @@
             </div>
             <span class="wrap-head-more">
               <a>更多</a>
-              <base-icon class="wrap-head-arrow" icon="right" />
-
+              <i class="icon-more"></i>
             </span>
           </div>
           <ul class="wrap-list f-cb">
@@ -29,7 +27,6 @@
                 <div class="bottom">
                   <a class="play"></a>
                   <span class="icon">
-                    <base-icon icon="music" />
                   </span>
                   <span class="num">{{numFix(item.playCount)}}</span>
                 </div>
@@ -42,24 +39,162 @@
           <div class="m-clmnad"></div>
           <div class="m-new">
             <div class="wrap-head">
-              <base-icon style="float:left;color:red;font-size:25px;" icon="kongdian" />
               <a class="wrap-head-title">
                 新碟上架
               </a>
               <span class="wrap-head-more">
                 <a>更多</a>
-                <base-icon class="wrap-head-arrow" icon="right" />
-
+                <i class="icon-more"></i>
               </span>
             </div>
             <div class="m-disk">
-              <div class="inner"></div>
+              <div class="inner">
+                <span class="inner-left">
+                </span>
+                <div class="inner-roll">
+                  <ul class="f-cb">
+                    <li v-for="(item,index) in albumList" :key="index">
+                      <div class="roll-ab roll-cover" @mouseenter='mouseenter(item)' @mouseleave='mouseleave(item)'>
+                        <img :src='item.picUrl' />
+                        <a class="mark"></a>
+                        <a v-show="item.playShow" class="play"></a>
+                      </div>
+                      <p class="f-hide">
+                        {{item.name}}
+                      </p>
+                      <p class="f-hide fc">
+                        {{item.artist.name}}
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+                <span class="inner-right">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="m-bill">
+            <div class="wrap-head">
+              <a class="wrap-head-title">
+                榜单
+              </a>
+              <span class="wrap-head-more">
+                <a>更多</a>
+                <i class="icon-more"></i>
+              </span>
+            </div>
+            <div class="m-bill-list">
+              <!-- 飙升榜 -->
+
+              <div class="bill-list-blk">
+                <div class="top">
+                  <div class="top-cover">
+                    <img src="../../../../assets/images/bs.jpg" />
+                    <div class="mark"></div>
+                  </div>
+                  <div class="top-title">
+                    <h3 class="title-h">
+                      云音乐飙升榜
+                    </h3>
+                    <div class="title-btn">
+                      <a class="btn-py">播放</a>
+                      <a class="btn-sc"></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="list">
+                  <ol>
+                    <li v-for="(item,index ) in topList.upList" :key="index" @mouseenter='mouseenter(item)' @mouseleave='mouseleave(item)'>
+                      <span :class="['no',index<3?'no-top':'']">{{index+1}}</span>
+                      <a :class="['nm', 'm-hide',item.playShow?'w2':'w1']">{{item.name}}</a>
+                      <div class="oper" v-show="item.playShow">
+                        <a class="sg sg-11" title='播放'></a>
+                        <a class="icon icon-11" title='添加到播放列表'></a>
+                        <a class="sg sg-12" title='收藏'></a>
+                      </div>
+                    </li>
+                  </ol>
+                  <div class="more">
+                    <a>查看全部></a>
+                  </div>
+                </div>
+              </div>
+              <!-- 云音乐新歌榜 -->
+
+              <div class="bill-list-blk">
+                <div class="top">
+                  <div class="top-cover">
+                    <img src="../../../../assets/images/xg.jpg" />
+                    <div class="mark"></div>
+                  </div>
+                  <div class="top-title">
+                    <h3 class="title-h">
+                      云音乐新歌榜
+                    </h3>
+                    <div class="title-btn">
+                      <a class="btn-py">播放</a>
+                      <a class="btn-sc"></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="list">
+                  <ol>
+                    <li v-for="(item,index ) in topList.newList" :key="index" @mouseenter='mouseenter(item)' @mouseleave='mouseleave(item)'>
+                      <span :class="['no',index<3?'no-top':'']">{{index+1}}</span>
+                      <a :class="['nm', 'm-hide',item.playShow?'w2':'w1']">{{item.name}}</a>
+                      <div class="oper" v-show="item.playShow">
+                        <a class="sg sg-11" title='播放'></a>
+                        <a class="icon icon-11" title='添加到播放列表'></a>
+                        <a class="sg sg-12" title='收藏'></a>
+                      </div>
+                    </li>
+                  </ol>
+                  <div class="more">
+                    <a>查看全部></a>
+                  </div>
+                </div>
+              </div>
+              <!-- 网易原创歌曲榜 -->
+
+              <div class="bill-list-blk blk1">
+                <div class="top">
+                  <div class="top-cover">
+                    <img src="../../../../assets/images/yc.jpg" />
+                    <div class="mark"></div>
+                  </div>
+                  <div class="top-title">
+                    <h3 class="title-h">
+                      网易原创歌曲榜
+                    </h3>
+                    <div class="title-btn">
+                      <a class="btn-py">播放</a>
+                      <a class="btn-sc"></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="list">
+                  <ol>
+                    <li v-for="(item,index ) in topList.orgList" :key="index" @mouseenter='mouseenter(item)' @mouseleave='mouseleave(item)'>
+                      <span :class="['no',index<3?'no-top':'']">{{index+1}}</span>
+                      <a :class="['nm', 'm-hide',item.playShow?'w2':'w1']">{{item.name}}</a>
+                      <div class="oper" v-show="item.playShow">
+                        <a class="sg sg-11" title='播放'></a>
+                        <a class="icon icon-11" title='添加到播放列表'></a>
+                        <a class="sg sg-12" title='收藏'></a>
+                      </div>
+                    </li>
+                  </ol>
+                  <div class="more">
+                    <a>查看全部></a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="m-hot-right">2</div>
+    <div class="m-hot-right">2222222</div>
   </div>
 </template>
 <script>
@@ -142,14 +277,29 @@ export default {
           num: "117万",
           dec: "伤心回忆寄存馆|今日营业中"
         }
-      ]
+      ],
+      albumList: [],
+      topList: {
+        upList: [],
+        newList: [],
+        orgList: []
+      }
     };
   },
 
-  created() {
+  async created() {
     this.getPersonalized();
+    this.getAlbum();
+    this.topList.upList = await this.getTop(3);
+    this.topList.newList = await this.getTop(0);
+    this.topList.orgList = await this.getTop(2);
+
+    console.log("top", this.topList.upList);
   },
   methods: {
+    /**
+     * 热门推荐
+     */
     async getPersonalized() {
       const Res = await this.$http.get("/personalized");
       if (Res && Res.code === 200) {
@@ -160,6 +310,48 @@ export default {
           .slice(0, 8);
       }
     },
+    /**
+     * 新碟上架
+     */
+    async getAlbum() {
+      const Res = await this.$http.get("/top/album", {
+        params: {
+          offset: 0,
+          limit: 10
+        }
+      });
+      if (Res && Res.code === 200) {
+        this.albumList = Res.albums.slice(0, 5).map(item => {
+          item.playShow = false;
+          return item;
+        });
+        console.log(this.albumList);
+      }
+    },
+    async getTop(idx) {
+      let data = [];
+      const Res = await this.$http.get("/top/list", {
+        params: {
+          idx: idx
+        }
+      });
+      if (Res && Res.code === 200) {
+        data = Res.playlist.tracks.slice(0, 10).map(item => {
+          item.playShow = false;
+          return item;
+        });
+        return data;
+      }
+    },
+    mouseenter(data) {
+      data.playShow = true;
+    },
+    mouseleave(data) {
+      data.playShow = false;
+    },
+    /**
+     * 播放量格式化
+     */
     numFix(num) {
       // return num > 9999 ? Math.floor(num / 1000) / 10 + "万" : num;
       return num > 9999 ? Math.floor(num / 10000) + "万" : num;
@@ -187,7 +379,8 @@ export default {
         padding: 20px 20px 40px;
         .wrap-head {
           height: 33px;
-          padding: 0 10px 0 5px;
+          padding: 0 10px 0 34px;
+          background: url("../../../../assets/images/index.png")no-repeat;
           background-position: -225px -156px;
           border-bottom: 2px solid #c10d0c;
           .wrap-head-title {
@@ -218,6 +411,15 @@ export default {
             a {
               color: #666;
             }
+            .icon-more {
+              display: inline-block;
+              width: 12px;
+              height: 12px;
+              margin-left: 4px;
+              vertical-align: middle;
+              background: url("../../../../assets/images/index.png")no-repeat;
+              background-position: 0 -240px;
+            }
             .wrap-head-arrow {
               color: #c10d0c;
               font-size: 14px;
@@ -243,6 +445,7 @@ export default {
               height: 140px;
               position: relative;
               display: block;
+
               img {
                 display: block;
                 width: 100%;
@@ -316,6 +519,289 @@ export default {
               padding-left: 16px;
               background: #f5f5f5;
               border: 1px solid #fff;
+              .inner-left {
+                position: absolute;
+                top: 71px;
+                width: 17px;
+                height: 17px;
+                left: 4px;
+                background: url("../../../../assets/images/index.png")no-repeat;
+                background-position: -260px -75px;
+                &:hover {
+                  background-position: -280px -75px;
+                  cursor: pointer;
+                }
+              }
+              .inner-roll {
+                float: left;
+                width: 645px;
+                height: 180px;
+                overflow: hidden;
+                position: relative;
+                zoom: 1;
+                ul {
+                  position: absolute;
+                  top: 0;
+                  width: 645px;
+                  margin: 28px 0 0 0;
+                  li {
+                    list-style: none;
+                    float: left;
+                    display: inline;
+                    width: 118px;
+                    height: 150px;
+                    margin-left: 11px;
+                    background: url("../../../../assets/images/index.png")no-repeat;
+                    background-position: -260px 100px;
+                    .roll-ab {
+                      width: 100px;
+                      height: 100px;
+                      img {
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                      }
+                      .mark {
+                        width: 118px;
+                        height: 100px;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        background: url("../../../../assets/images/coverall.png")no-repeat;
+                        background-position: 0 -570px;
+                        cursor: pointer;
+                      }
+                      .play {
+                        left: 72px;
+                        width: 22px;
+                        height: 22px;
+                        float: right;
+                        position: absolute;
+                        right: 10px;
+                        bottom: 5px;
+                        background: url("../../../../assets/images/iconall.png")no-repeat;
+                        background-position: 0 -85px;
+                        &:hover {
+                          background-position: 0 -110px;
+                          cursor: pointer;
+                        }
+                      }
+                    }
+                    .roll-cover {
+                      position: relative;
+                      display: block;
+                      margin-bottom: 7px;
+                    }
+                    p {
+                      width: 90%;
+                      line-height: 18px;
+                      color: #333;
+                      font-size: 12px;
+                      &:hover {
+                        cursor: pointer;
+                        color: #000;
+                        text-decoration: underline;
+                      }
+                    }
+                    .f-hide {
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                      word-wrap: normal;
+                    }
+                    .fc {
+                      color: #666;
+                    }
+                  }
+                }
+              }
+              .inner-right {
+                position: absolute;
+                top: 71px;
+                width: 17px;
+                height: 17px;
+                background: url("../../../../assets/images/index.png")no-repeat;
+                background-position: -300px -75px;
+                &:hover {
+                  background-position: -320px -75px;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+        .m-bill {
+          .m-bill-list {
+            height: 472px;
+            margin-top: 20px;
+            padding-left: 1px;
+            background: url("../../../../assets/images/index_bill.png")no-repeat;
+            .bill-list-blk {
+              float: left;
+              width: 230px;
+              .top {
+                height: 100px;
+                padding: 20px 0 0 19px;
+                .top-cover {
+                  float: left;
+                  display: inline;
+                  width: 80px;
+                  height: 80px;
+                  position: relative;
+                  img {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                  }
+                  .mark {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: url("../../../../assets/images/coverall.png")no-repeat;
+                    background-position: -145px -57px;
+                  }
+                }
+                .top-title {
+                  float: left;
+                  width: 116px;
+                  margin: 6px 0 0 10px;
+                  .title-h {
+                    font-size: 14px;
+                    color: #333;
+                    &:hover {
+                      text-decoration: underline;
+                      cursor: pointer;
+                    }
+                  }
+                  .title-btn {
+                    margin-top: 10px;
+                    font-size: 12px;
+                    color: #333;
+                    a {
+                      display: block;
+                      float: left;
+                      width: 22px;
+                      height: 22px;
+                      margin-right: 10px;
+                      text-indent: -9999px;
+                    }
+                    .btn-py {
+                      background: url("../../../../assets/images/index.png")no-repeat;
+                      background-position: -267px -205px;
+                      &:hover {
+                        background-position: -267px -235px;
+                        cursor: pointer;
+                      }
+                    }
+                    .btn-sc {
+                      background: url("../../../../assets/images/index.png")no-repeat;
+                      background-position: -300px -205px;
+                      &:hover {
+                        background-position: -300px -235px;
+                        cursor: pointer;
+                      }
+                    }
+                  }
+                }
+              }
+              .list {
+                ol {
+                  height: 319px;
+                  margin-left: 50px;
+                  line-height: 32px;
+                  li {
+                    height: 32px;
+                    vertical-align: middle;
+                    display: list-item;
+                    list-style: none;
+                    text-align: -webkit-match-parent;
+                    .no {
+                      float: left;
+                      position: relative;
+                      width: 35px;
+                      height: 32px;
+                      margin-left: -35px;
+                      text-align: center;
+                      color: #666;
+                      font-size: 16px;
+                    }
+                    .no-top {
+                      color: #c10d0c;
+                    }
+                    .w1 {
+                      width: 170px;
+                    }
+                    .w2 {
+                      width: 96px;
+                    }
+                    .nm {
+                      color: #000;
+                      float: left;
+                      font-size: 12px;
+                      height: 32px;
+                      &:hover {
+                        cursor: pointer;
+                        text-decoration: underline;
+                      }
+                    }
+                    .oper {
+                      display: block;
+                      float: right;
+                      width: 82px;
+                      margin-top: 7px;
+                      a {
+                        float: left;
+                        width: 17px;
+                        height: 17px;
+                        margin-right: 10px;
+                        &:hover {
+                          cursor: pointer;
+                        }
+                      }
+                      .sg {
+                        background: url("../../../../assets/images/index.png")no-repeat;
+                      }
+                      .sg-11 {
+                        background-position: -267px -268px;
+                      }
+                      .sg-12 {
+                        background-position: -297px -268px;
+                      }
+                      .icon {
+                        display: inline-block;
+                        overflow: hidden;
+                        vertical-align: middle;
+                        background: url("../../../../assets/images/icon.png")no-repeat;
+                      }
+                      .icon-11 {
+                        width: 13px;
+                        height: 13px;
+                        margin: 2px 6px 0 0;
+                        background-position: 0 -700px;
+                      }
+                    }
+                  }
+                }
+                .more {
+                  font-size: 12px;
+                  color: #000;
+                  clear: both;
+                  height: 32px;
+                  margin-right: 32px;
+                  text-align: right;
+                  line-height: 32px;
+                  &:hover {
+                    text-decoration: underline;
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+
+            .blk1 {
+              width: 228px;
             }
           }
         }
@@ -327,6 +813,12 @@ export default {
     float: right;
     width: 250px;
     zoom: 1;
+  }
+  .m-hide {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
   }
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="cm-top">
       <div class="cm-wrap f-cb">
         <div class="cm-logo">
-          网易云
+          <!-- 网易云 -->
         </div>
         <ul class="cm-nav">
           <li v-for="(item,index) in navList" @click="setNavActive(item)" :key="index" :class="item.index==navActive?'nav-active':''">
@@ -33,11 +33,13 @@
       </div>
     </div>
     <router-view/>
+    <foot />
   </div>
 </template>
 
 
 <script>
+import Foot from "./Footer.vue";
 export default {
   data() {
     return {
@@ -58,6 +60,9 @@ export default {
         { index: 4, name: "新浪微博登录", icon: "weibo" }
       ]
     };
+  },
+  components: {
+    Foot
   },
   methods: {
     setNavActive(item) {
@@ -93,7 +98,8 @@ export default {
       float: left;
       width: 176px;
       height: 69px;
-      background: url(../../assets/images/topbar.png) no-repeat 0 9999px;
+      background: url("../../assets/images/topbar.png")no-repeat;
+      background-position: 0 0;
     }
     .cm-nav {
       float: left;
@@ -200,5 +206,4 @@ export default {
     z-index: 1;
   }
 }
-
 </style>
