@@ -23,7 +23,7 @@ _AXIOS.interceptors.response.use(
     return res;
   },
   err => {
-    return Promise.reject(error);
+    return Promise.reject(err);
   }
 );
 
