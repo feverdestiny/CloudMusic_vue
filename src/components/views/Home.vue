@@ -34,12 +34,14 @@
     </div>
     <router-view/>
     <foot />
+    <play-bar />
   </div>
 </template>
 
 
 <script>
 import Foot from "./Footer.vue";
+import PlayBar from "./PlayBar.vue";
 export default {
   data() {
     return {
@@ -62,7 +64,8 @@ export default {
     };
   },
   components: {
-    Foot
+    Foot,
+    PlayBar
   },
   methods: {
     setNavActive(item) {
@@ -205,5 +208,13 @@ export default {
     position: relative;
     z-index: 1;
   }
+}
+.g-frame {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 </style>
