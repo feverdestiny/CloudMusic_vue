@@ -68,7 +68,9 @@
                 </div>
             </div>
         </div>
-        <audio ref='songPlay' :src="audioUrl"></audio>
+        <audio ref='songPlay' :src='src' >
+          <!-- <source :src="audioUrl"> -->
+        </audio>
     </div>
 </template>
 
@@ -79,7 +81,10 @@ export default {
     return {
       defalutImg:
         "http://s4.music.126.net/style/web2/img/default/default_album.jpg",
-      audioUrl: ""
+      // audioUrl: "",
+      audioUrl:
+        "http://m10.music.126.net/20180328232838/809fce1312f2bc8c74ec7021d6943658/ymusic/38f1/6fbc/5cdb/9728d7d9e09fb610a65006a9b930f526.mp3",
+      src: "http://music.163.com/song/media/outer/url?id=548097885.mp3"
     };
   },
   created() {
@@ -94,8 +99,8 @@ export default {
       });
       if (Res && Res.code === 200) {
         this.audioUrl = Res.data[0].url;
-        console.log(1111,this.$refs.songPlay);
-        // this.$refs.songPlay.play();
+        console.log(1111, this.$refs.songPlay);
+        this.$refs.songPlay.play();
       }
     }
   },
@@ -116,7 +121,9 @@ export default {
   },
   watch: {
     songInfo(val) {
-      this.getImgUrl(val.id);
+      // this.src = `http://music.163.com/song/media/outer/url?id=${val}.mp3`;
+      // this.getImgUrl(val.id);
+      this.$refs.songPlay.play();
     }
   }
 };

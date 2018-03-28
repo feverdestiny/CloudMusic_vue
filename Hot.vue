@@ -108,7 +108,7 @@
                       <span :class="['no',index<3?'no-top':'']">{{index+1}}</span>
                       <a :class="['nm', 'm-hide',item.playShow?'w2':'w1']">{{item.name}}</a>
                       <div class="oper" v-show="item.playShow">
-                        <a class="sg sg-11" @click="musicPlay(item)" title='播放'></a>
+                        <a class="sg sg-11" title='播放'></a>
                         <a class="icon icon-11" title='添加到播放列表'></a>
                         <a class="sg sg-12" title='收藏'></a>
                       </div>
@@ -120,6 +120,7 @@
                 </div>
               </div>
               <!-- 云音乐新歌榜 -->
+
               <div class="bill-list-blk">
                 <div class="top">
                   <div class="top-cover">
@@ -194,8 +195,7 @@
       </div>
     </div>
     <div class="m-hot-right">
-
-     <div class="m-myinfo m-myinfo-1 sg sg1">
+      <div class="m-myinfo m-myinfo-1 sg sg1">
         <p class="note">
           登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机
         </p>
@@ -330,7 +330,6 @@ export default {
     this.topList.newList = await this.getTop(0);
     this.topList.orgList = await this.getTop(2);
     this.getArtists();
-
     console.log("top", this.topList.upList);
   },
   methods: {
@@ -344,10 +343,6 @@ export default {
       if (Res && Res.code === 200) {
         this.artistsList = Res.artists;
       }
-    },
-    musicPlay(data) {
-      console.log(data);
-      this.$store.dispatch("setSong", data);
     },
     /**
      * 热门推荐
@@ -421,6 +416,8 @@ export default {
   background-color: #fff;
   border: 1px solid #d3d3d3;
   border-width: 0 1px;
+  background: url("../../../../assets/images/wrap1.png")repeat-y 100% 100%;
+
   .m-hot-left {
     float: left;
     width: 100%;
@@ -539,11 +536,7 @@ export default {
                   float: left;
                   width: 14px;
                   height: 11px;
-                  background: url("../../../../assets/images/iconall.png")no-repeat;
-
-                  background-position: 0 -24px;
-                  margin: 9px 5px 9px 10px;
-                  // margin: 3px 10px 0px 5px;
+                  margin: 3px 10px 0px 5px;
                 }
                 .num {
                   float: left;
@@ -821,15 +814,9 @@ export default {
                       }
                       .sg-11 {
                         background-position: -267px -268px;
-                        &:hover {
-                          background-position: -267px -288px;
-                        }
                       }
                       .sg-12 {
                         background-position: -297px -268px;
-                        &:hover {
-                          background-position: -297px -288px;
-                        }
                       }
                       .icon {
                         display: inline-block;
@@ -842,9 +829,6 @@ export default {
                         height: 13px;
                         margin: 2px 6px 0 0;
                         background-position: 0 -700px;
-                        &:hover {
-                          background-position: -22px -700px;
-                        }
                       }
                     }
                   }
@@ -873,7 +857,7 @@ export default {
       }
     }
   }
- .m-hot-right {
+  .m-hot-right {
     position: relative;
     float: right;
     width: 250px;
