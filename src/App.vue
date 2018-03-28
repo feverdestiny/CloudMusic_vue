@@ -15,6 +15,10 @@ export default {
   margin: 0px;
   padding: 0px;
 }
+html,
+body {
+  // overflow: hidden;
+}
 #app {
   background: #f5f5f5;
 }
