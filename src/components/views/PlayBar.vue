@@ -68,6 +68,7 @@
                 </div>
             </div>
         </div>
+        <audio ref='songPlay' :src="audioUrl"></audio>
     </div>
 </template>
 
@@ -77,13 +78,27 @@ export default {
   data() {
     return {
       defalutImg:
-        "http://s4.music.126.net/style/web2/img/default/default_album.jpg"
+        "http://s4.music.126.net/style/web2/img/default/default_album.jpg",
+      audioUrl: ""
     };
   },
   created() {
     console.log(this);
   },
-  methods: {},
+  methods: {
+    async getImgUrl(id) {
+      const Res = await this.$http.get("/music/url", {
+        params: {
+          id: id
+        }
+      });
+      if (Res && Res.code === 200) {
+        this.audioUrl = Res.data[0].url;
+        console.log(1111,this.$refs.songPlay);
+        // this.$refs.songPlay.play();
+      }
+    }
+  },
   computed: {
     songInfo() {
       return this.$store.getters.song;
@@ -97,6 +112,11 @@ export default {
     },
     songAr() {
       return this.songInfo.ar || [];
+    }
+  },
+  watch: {
+    songInfo(val) {
+      this.getImgUrl(val.id);
     }
   }
 };
