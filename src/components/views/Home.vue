@@ -10,6 +10,7 @@
             <span>
               <a>{{item.name}}</a>
             </span>
+            <sup class="hot" v-if="item.index===6"></sup>
             <div v-show="item.index==navActive" class="arrow-up"></div>
           </li>
         </ul>
@@ -119,6 +120,16 @@ export default {
           border-left: 6px solid transparent;
           border-right: 6px solid transparent;
           border-bottom: 6px solid #c20c0c;
+        }
+        .hot {
+          display: block;
+          position: absolute;
+          top: 21px;
+          left: 100px;
+          width: 28px;
+          height: 19px;
+          background: url("../../assets/images/topbar.png")no-repeat;
+          background-position: -190px 0;
         }
         span {
           color: #ccc;

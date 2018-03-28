@@ -536,7 +536,11 @@ export default {
                   float: left;
                   width: 14px;
                   height: 11px;
-                  margin: 3px 10px 0px 5px;
+                  background: url("../../../../assets/images/iconall.png")no-repeat;
+
+                  background-position: 0 -24px;
+                  margin: 9px 5px 9px 10px;
+                  // margin: 3px 10px 0px 5px;
                 }
                 .num {
                   float: left;
