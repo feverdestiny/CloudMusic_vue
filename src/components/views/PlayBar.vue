@@ -1,77 +1,77 @@
 <template>
-    <div class="play-bar">
-        <div class="m-play">
-            <div class="updn">
-                <div class="left f-f1">
-                    <a class="btn"></a>
-                </div>
-                <div class="right f-f1"></div>
-            </div>
-            <div class="bg"></div>
-            <div class="hand"></div>
-            <div class="wrap">
-                <div class="btns">
-                    <a class="prv"></a>
-                    <a class="ply"></a>
-                    <a class="nxt"></a>
-                </div>
-                <div class="head">
-                    <img :src="songImg" />
-                    <a class="mark"></a>
-                </div>
-                <div class="play">
-                    <div class="words">
-                        <a class="f-thide">{{songInfo.name}}</a>
-                        <span class="f-thide by">
-                            <span>
-                                <a v-for="(item,index) in songAr" :key="index">
-                                    {{item.name}}
-                                    <span v-show="index!==songAr.length-1">/</span>
-                                </a>
-                            </span>
-                        </span>
-                        <a class="src">
-                        </a>
-                    </div>
-                    <div class="m-pbar">
-                        <div class="barbg">
-                            <div class="rdy" style="width:93%"></div>
-                            <div class="cur" style="width:20%">
-                                <span class="btn"></span>
-                            </div>
-                        </div>
-                        <div class="time">
-                            <em>00:48</em>
-                            /03:35
-                        </div>
-                    </div>
-                </div>
-                <div class="oper">
-                    <a class="icon icon-add"></a>
-                    <a class="icon icon-share"></a>
-                </div>
-                <div class="ctrl">
-                    <div class="m-vol">
-                        <div class="barbg"></div>
-                        <div class="vbg">
-                            <div class="curr" style="height:45px"></div>
-                            <span class="btn" style="top:45px"></span>
-                        </div>
-                    </div>
-                    <a class="icon icon-vol"></a>
-                    <a class="icon icon-loop"></a>
-                    <a class="add f-pr">
-                        <span class="tip">已添加到播放列表</span>
-                        <a class="icon icon-list">1</a>
-                    </a>
-                    <span class="tip tip-1">循环</span>
-                </div>
-            </div>
+  <div class="play-bar">
+    <div class="m-play">
+      <div class="updn">
+        <div class="left f-f1">
+          <a class="btn"></a>
         </div>
-        <audio ref='songPlay' :src='src' >
-          <!-- <source :src="audioUrl"> -->
-        </audio>
+        <div class="right f-f1"></div>
+      </div>
+      <div class="bg"></div>
+      <div class="hand"></div>
+      <div class="wrap">
+        <div class="btns">
+          <a class="prv"></a>
+          <a class="ply"></a>
+          <a class="nxt"></a>
+        </div>
+        <div class="head">
+          <img :src="songImg" />
+          <a class="mark"></a>
+        </div>
+        <div class="play">
+          <div class="words">
+            <a class="f-thide">{{songInfo.name}}</a>
+            <span class="f-thide by">
+              <span>
+                <a v-for="(item,index) in songAr" :key="index">
+                  {{item.name}}
+                  <span v-show="index!==songAr.length-1">/</span>
+                </a>
+              </span>
+            </span>
+            <a class="src">
+            </a>
+          </div>
+          <div class="m-pbar">
+            <div class="barbg">
+              <div class="rdy" style="width:93%"></div>
+              <div class="cur" style="width:20%">
+                <span class="btn"></span>
+              </div>
+            </div>
+            <div class="time">
+              <em>00:48</em>
+              /03:35
+            </div>
+          </div>
+        </div>
+        <div class="oper">
+          <a class="icon icon-add"></a>
+          <a class="icon icon-share"></a>
+        </div>
+        <div class="ctrl">
+          <div class="m-vol">
+            <div class="barbg"></div>
+            <div class="vbg">
+              <div class="curr" style="height:45px"></div>
+              <span class="btn" style="top:45px"></span>
+            </div>
+          </div>
+          <a class="icon icon-vol"></a>
+          <a class="icon icon-loop"></a>
+          <a class="add f-pr">
+            <span class="tip">已添加到播放列表</span>
+            <a class="icon icon-list">1</a>
+          </a>
+          <span class="tip tip-1">循环</span>
+        </div>
+      </div>
     </div>
+    <audio ref='songPlay' :src='audioUrl'>
+      <!-- <source :src="audioUrl"> -->
+    </audio>
+  </div>
 </template>
 
 
@@ -82,9 +82,9 @@ export default {
       defalutImg:
         "http://s4.music.126.net/style/web2/img/default/default_album.jpg",
       // audioUrl: "",
-      audioUrl:
+      src:
         "http://m10.music.126.net/20180328232838/809fce1312f2bc8c74ec7021d6943658/ymusic/38f1/6fbc/5cdb/9728d7d9e09fb610a65006a9b930f526.mp3",
-      src: "http://music.163.com/song/media/outer/url?id=548097885.mp3"
+      audioUrl: "http://music.163.com/song/media/outer/url?id=548097885.mp3"
     };
   },
   created() {
@@ -98,7 +98,8 @@ export default {
         }
       });
       if (Res && Res.code === 200) {
-        this.audioUrl = Res.data[0].url;
+        this.$refs.songPlay.pause();
+        // this.audioUrl = Res.data[0].url;
         console.log(1111, this.$refs.songPlay);
         this.$refs.songPlay.play();
       }
@@ -121,9 +122,16 @@ export default {
   },
   watch: {
     songInfo(val) {
-      // this.src = `http://music.163.com/song/media/outer/url?id=${val}.mp3`;
-      // this.getImgUrl(val.id);
-      this.$refs.songPlay.play();
+      this.$refs.songPlay.pause();
+      console.log(this.$refs.songPlay);
+      this.audioUrl = `http://music.163.com/song/media/outer/url?id=${
+        val.id
+      }.mp3`;
+      console.log(this.$refs.songPlay);
+      this.$nextTick(() => {
+        this.$refs.songPlay.play();
+      });
+      console.log(1111);
     }
   }
 };
