@@ -34,15 +34,15 @@
             </a>
           </div>
           <div class="m-pbar">
-            <div class="barbg">
-              <div class="rdy" style="width:93%"></div>
-              <div class="cur" style="width:20%">
+            <div ref='timeline' class="barbg" @click="timeClick">
+              <div class="rdy" :style="buffPrgress"></div>
+              <div class="cur" :style="curPrgress">
                 <span class="btn"></span>
               </div>
             </div>
             <div class="time">
-              <em>00:48</em>
-              /03:35
+              <em>{{currentTime}}</em>
+              /{{duration}}
             </div>
           </div>
         </div>
@@ -79,6 +79,14 @@
 export default {
   data() {
     return {
+      duration: "00:00",
+      currentTime: "00::00",
+      curPrgress: {
+        width: "0%"
+      },
+      buffPrgress: {
+        width: "0%"
+      },
       defalutImg:
         "http://s4.music.126.net/style/web2/img/default/default_album.jpg",
       // audioUrl: "",
@@ -91,18 +99,50 @@ export default {
     console.log(this);
   },
   methods: {
-    async getImgUrl(id) {
-      const Res = await this.$http.get("/music/url", {
-        params: {
-          id: id
-        }
-      });
-      if (Res && Res.code === 200) {
-        this.$refs.songPlay.pause();
-        // this.audioUrl = Res.data[0].url;
-        console.log(1111, this.$refs.songPlay);
-        this.$refs.songPlay.play();
+    timeClick(event){
+      console.log(event);
+      console.log(this.$refs.timeline);
+    },
+    setPrgress() {
+      if (this.$refs.songPlay.currentTime) {
+        let audio = this.$refs.songPlay;
+
+        this.curPrgress.width = `${this.$refs.songPlay.currentTime /
+          this.$refs.songPlay.duration *
+          100}%`;
+      } else {
+        this.curPrgress.width = `0%`;
       }
+    },
+    setBuffPrgress() {
+      if (this.$refs.songPlay.buffered) {
+        let audio = this.$refs.songPlay;
+        let timeRanges = audio.buffered;
+        if (timeRanges.length > 0) {
+          this.buffPrgress.width = `${timeRanges.end(
+            timeRanges.length <= 0 ? 1 : timeRanges.length - 1
+          ) /
+            audio.duration *
+            100}%`;
+        }
+      } else {
+        this.buffPrgress.width = `0%`;
+      }
+    },
+    transTime(time) {
+      let duration = parseInt(time);
+      let minute = parseInt(duration / 60);
+      let sec = duration % 60 + "";
+      let isM0 = ":";
+      if (minute == 0) {
+        minute = "00";
+      } else if (minute < 10) {
+        minute = "0" + minute;
+      }
+      if (sec.length == 1) {
+        sec = "0" + sec;
+      }
+      return minute + isM0 + sec;
     }
   },
   computed: {
@@ -123,15 +163,19 @@ export default {
   watch: {
     songInfo(val) {
       this.$refs.songPlay.pause();
-      console.log(this.$refs.songPlay);
       this.audioUrl = `http://music.163.com/song/media/outer/url?id=${
         val.id
       }.mp3`;
-      console.log(this.$refs.songPlay);
+
       this.$nextTick(() => {
         this.$refs.songPlay.play();
+        setInterval(() => {
+          this.duration = this.transTime(this.$refs.songPlay.duration || 0);
+          this.currentTime = this.transTime(this.$refs.songPlay.currentTime);
+          this.setBuffPrgress();
+          this.setPrgress();
+        }, 500);
       });
-      console.log(1111);
     }
   }
 };

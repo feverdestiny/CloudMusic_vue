@@ -131,7 +131,7 @@
                       云音乐新歌榜
                     </h3>
                     <div class="title-btn">
-                      <a class="btn-py">播放</a>
+                      <a class="btn-py" >播放</a>
                       <a class="btn-sc"></a>
                     </div>
                   </div>
@@ -142,7 +142,7 @@
                       <span :class="['no',index<3?'no-top':'']">{{index+1}}</span>
                       <a :class="['nm', 'm-hide',item.playShow?'w2':'w1']">{{item.name}}</a>
                       <div class="oper" v-show="item.playShow">
-                        <a class="sg sg-11" title='播放'></a>
+                        <a class="sg sg-11" title='播放' @click="musicPlay(item)"></a>
                         <a class="icon icon-11" title='添加到播放列表'></a>
                         <a class="sg sg-12" title='收藏'></a>
                       </div>
@@ -177,7 +177,7 @@
                       <span :class="['no',index<3?'no-top':'']">{{index+1}}</span>
                       <a :class="['nm', 'm-hide',item.playShow?'w2':'w1']">{{item.name}}</a>
                       <div class="oper" v-show="item.playShow">
-                        <a class="sg sg-11" title='播放'></a>
+                        <a class="sg sg-11" title='播放' @click="musicPlay(item)"></a>
                         <a class="icon icon-11" title='添加到播放列表'></a>
                         <a class="sg sg-12" title='收藏'></a>
                       </div>
