@@ -12,7 +12,7 @@
       <div class="wrap">
         <div class="btns">
           <a class="prv"></a>
-          <a class="ply"></a>
+          <a :class="['ply',isplay?'pas':'']" @click='setPlay'></a>
           <a class="nxt"></a>
         </div>
         <div class="head">
@@ -35,9 +35,11 @@
           </div>
           <div class="m-pbar">
             <div ref='timeline' class="barbg" @click="timeClick">
-              <div class="rdy" :style="buffPrgress"></div>
+              <!-- <div class="rdy" :style="buffPrgress"></div> -->
+              
+                <vue-slider style="padding:0px;" v-model="buffer" :speed='0' lazy height='9' :tooltip='false' width='493'></vue-slider>
               <div class="cur" :style="curPrgress">
-                <span class="btn"></span>
+                <!-- <span class="btn"></span> -->
               </div>
             </div>
             <div class="time">
@@ -68,7 +70,7 @@
         </div>
       </div>
     </div>
-    <audio ref='songPlay' :src='audioUrl'>
+    <audio ref='songPlay'  @ended="ended"  :src='audioUrl'>
       <!-- <source :src="audioUrl"> -->
     </audio>
   </div>
@@ -76,6 +78,7 @@
 
 
 <script>
+import vueSlider from "vue-slider-component";
 export default {
   data() {
     return {
@@ -84,9 +87,11 @@ export default {
       curPrgress: {
         width: "0%"
       },
+      isplay: false,
       buffPrgress: {
         width: "0%"
       },
+      buffer: 0,
       defalutImg:
         "http://s4.music.126.net/style/web2/img/default/default_album.jpg",
       // audioUrl: "",
@@ -95,11 +100,40 @@ export default {
       audioUrl: "http://music.163.com/song/media/outer/url?id=548097885.mp3"
     };
   },
+  components: {
+    vueSlider
+  },
   created() {
     console.log(this);
   },
   methods: {
-    timeClick(event){
+    setPlay() {
+      if (this.isplay) {
+        console.log(11);
+        this.pauseMusic();
+      } else {
+        console.log(2);
+        this.playeMusic();
+      }
+    },
+    playeMusic() {
+      this.$nextTick(() => {
+        this.$refs.songPlay.play();
+        this.isplay = true;
+        this.update = setInterval(() => {
+          this.duration = this.transTime(this.$refs.songPlay.duration || 0);
+          this.currentTime = this.transTime(this.$refs.songPlay.currentTime);
+          this.setBuffPrgress();
+          this.setPrgress();
+        }, 1000 / 60);
+      });
+    },
+    pauseMusic() {
+      clearInterval(this.update);
+      this.$refs.songPlay.pause();
+      this.isplay = false;
+    },
+    timeClick(event) {
       console.log(event);
       console.log(this.$refs.timeline);
     },
@@ -110,8 +144,11 @@ export default {
         this.curPrgress.width = `${this.$refs.songPlay.currentTime /
           this.$refs.songPlay.duration *
           100}%`;
+        this.buffer =
+          this.$refs.songPlay.currentTime / this.$refs.songPlay.duration * 100;
       } else {
         this.curPrgress.width = `0%`;
+        this.buffer = 0;
       }
     },
     setBuffPrgress() {
@@ -129,6 +166,11 @@ export default {
         this.buffPrgress.width = `0%`;
       }
     },
+    ended() {
+      clearInterval(this.update);
+      this.play = false;
+    },
+
     transTime(time) {
       let duration = parseInt(time);
       let minute = parseInt(duration / 60);
@@ -166,16 +208,7 @@ export default {
       this.audioUrl = `http://music.163.com/song/media/outer/url?id=${
         val.id
       }.mp3`;
-
-      this.$nextTick(() => {
-        this.$refs.songPlay.play();
-        setInterval(() => {
-          this.duration = this.transTime(this.$refs.songPlay.duration || 0);
-          this.currentTime = this.transTime(this.$refs.songPlay.currentTime);
-          this.setBuffPrgress();
-          this.setPrgress();
-        }, 500);
-      });
+      this.playeMusic();
     }
   }
 };
@@ -294,6 +327,9 @@ $iconall: url("../../assets/images/iconall.png")no-repeat 0 9999px;
             background-position: -40px -204px;
           }
         }
+        .pas {
+          background-position: 0 -165px;
+        }
         .nxt {
           background-position: -80px -130px;
           &:hover {
@@ -368,6 +404,28 @@ $iconall: url("../../assets/images/iconall.png")no-repeat 0 9999px;
             height: 9px;
             background: $starbar;
             background-position: right 0;
+            .vue-slider {
+              background: $starbar;
+              background-position: right 0;
+            }
+            .vue-slider-process {
+              background: $starbar;
+              background-position: left -66px;
+            }
+            .vue-slider-dot {
+              position: absolute;
+              top: -7px !important;
+              right: -13px;
+              width: 22px !important;
+              height: 24px !important;
+              // margin-left: -11px;
+              background: $iconall;
+              background-position: 0 -250px;
+              &:hover {
+                background-position: 0 -280px;
+              }
+            }
+
             .rdy {
               height: 9px;
               background: $starbar;
@@ -383,7 +441,7 @@ $iconall: url("../../assets/images/iconall.png")no-repeat 0 9999px;
               background-position: left -66px;
               .btn {
                 position: absolute;
-                top: -7px;
+                top: 0px !important;
                 right: -13px;
                 width: 22px;
                 height: 24px;
@@ -398,13 +456,8 @@ $iconall: url("../../assets/images/iconall.png")no-repeat 0 9999px;
           }
           .time {
             position: absolute;
-            top: -3px;
-            right: -84px;
-            color: #797979;
-            text-shadow: 0 1px 0 #121212;
-            position: absolute;
-            top: -3px;
-            right: -84px;
+            top: -5px;
+            right: -90px;
             color: #797979;
             text-shadow: 0 1px 0 #121212;
             em {
