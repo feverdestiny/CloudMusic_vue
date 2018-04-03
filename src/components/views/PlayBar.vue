@@ -35,12 +35,11 @@
           </div>
           <div class="m-pbar">
             <div ref='timeline' class="barbg" @click="timeClick">
-              <!-- <div class="rdy" :style="buffPrgress"></div> -->
-              
-                <vue-slider style="padding:0px;" v-model="buffer" :speed='0' lazy height='9' :tooltip='false' width='493'></vue-slider>
-              <div class="cur" :style="curPrgress">
-                <!-- <span class="btn"></span> -->
-              </div>
+              <vue-slider style="padding:0px;" @callback='timeLineChange' @drag-start='timeLineChangeStart' @drag-end='timeLineChangeEnd' v-model="buffer" :speed='0' height='9' :tooltip='false' width='493'></vue-slider>
+              <div class="rdy" :style="buffPrgress"></div>
+              <!-- <div class="cur" :style="curPrgress">
+                <span class="btn"></span>
+              </div> -->
             </div>
             <div class="time">
               <em>{{currentTime}}</em>
@@ -70,7 +69,7 @@
         </div>
       </div>
     </div>
-    <audio ref='songPlay'  @ended="ended"  :src='audioUrl'>
+    <audio ref='songPlay' @ended="ended" :src='audioUrl'>
       <!-- <source :src="audioUrl"> -->
     </audio>
   </div>
@@ -83,7 +82,7 @@ export default {
   data() {
     return {
       duration: "00:00",
-      currentTime: "00::00",
+      currentTime: "00:00",
       curPrgress: {
         width: "0%"
       },
@@ -107,18 +106,60 @@ export default {
     console.log(this);
   },
   methods: {
+    /**
+     *  时间轴拖拽中
+     * @param {Number} val 当前值
+     */
+    timeLineChange(val) {
+      console.log("change");
+      this.currentTime = this.transTime(
+        val / 100 * this.$refs.songPlay.duration
+      );
+    },
+
+    /**
+     * 进度条开始拖拽
+     * @param  {Object}  event 进度条对象
+     */
+    timeLineChangeStart(event) {
+      console.log("start");
+      clearInterval(this.update);
+    },
+    /**
+     * 进度条结束拖拽
+     * @param  {Object}  event 进度条对象
+     */
+    timeLineChangeEnd(event) {
+      console.log("end");
+      this.$refs.songPlay.currentTime = (
+        event.value /
+        100 *
+        this.$refs.songPlay.duration
+      ).toFixed(2);
+      if (this.isplay) this.playeMusic();
+    },
+    /**
+     * 自动设置播放模式
+     */
     setPlay() {
       if (this.isplay) {
         console.log(11);
         this.pauseMusic();
+        document.title = "网易云音乐";
       } else {
         console.log(2);
+        console.log(document.title);
         this.playeMusic();
+        document.title = `▶ ${this.songInfo.name}`;
       }
     },
+    /**
+     * 播放音乐
+     */
     playeMusic() {
       this.$nextTick(() => {
         this.$refs.songPlay.play();
+        document.title = `▶ ${this.songInfo.name}`;
         this.isplay = true;
         this.update = setInterval(() => {
           this.duration = this.transTime(this.$refs.songPlay.duration || 0);
@@ -128,15 +169,26 @@ export default {
         }, 1000 / 60);
       });
     },
+    /**
+     * 暂停音乐播放
+     */
     pauseMusic() {
       clearInterval(this.update);
       this.$refs.songPlay.pause();
       this.isplay = false;
     },
     timeClick(event) {
-      console.log(event);
-      console.log(this.$refs.timeline);
+      // this.$refs.songPlay.pause();
+      // this.$refs.songPlay.currentTime = (
+      //   this.currentTime /
+      //   100 *
+      //   this.$refs.songPlay.duration
+      // ).toFixed(2);
+      // this.$refs.songPlay.play();
     },
+    /**
+     * 设置进度条样式
+     */
     setPrgress() {
       if (this.$refs.songPlay.currentTime) {
         let audio = this.$refs.songPlay;
@@ -151,6 +203,9 @@ export default {
         this.buffer = 0;
       }
     },
+    /**
+     * 设置音乐缓存进度样式
+     */
     setBuffPrgress() {
       if (this.$refs.songPlay.buffered) {
         let audio = this.$refs.songPlay;
@@ -166,11 +221,17 @@ export default {
         this.buffPrgress.width = `0%`;
       }
     },
+    /**
+     * 音乐播放完后状态
+     */
     ended() {
       clearInterval(this.update);
       this.play = false;
     },
 
+    /**
+     * 时间格式化
+     */
     transTime(time) {
       let duration = parseInt(time);
       let minute = parseInt(duration / 60);
@@ -329,6 +390,9 @@ $iconall: url("../../assets/images/iconall.png")no-repeat 0 9999px;
         }
         .pas {
           background-position: 0 -165px;
+          &:hover {
+            background-position: -40px -165px;
+          }
         }
         .nxt {
           background-position: -80px -130px;
@@ -419,14 +483,23 @@ $iconall: url("../../assets/images/iconall.png")no-repeat 0 9999px;
               width: 22px !important;
               height: 24px !important;
               // margin-left: -11px;
+              box-shadow: 0 0 0 rgba(0, 0, 0, 0);
               background: $iconall;
               background-position: 0 -250px;
               &:hover {
                 background-position: 0 -280px;
               }
             }
+            .slider-lin {
+              position: absolute;
+              left: 0;
+              top: 0;
+            }
 
             .rdy {
+              position: absolute;
+              top: 0;
+              left: 0;
               height: 9px;
               background: $starbar;
               background-position: right -30px;
