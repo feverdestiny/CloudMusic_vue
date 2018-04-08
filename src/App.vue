@@ -17,6 +17,8 @@ export default {
 }
 html,
 body {
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
   // overflow: hidden;
 }
 #app {
