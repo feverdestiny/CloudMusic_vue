@@ -72,6 +72,11 @@ export default new Router({
       path: "/icon",
       name: "Icon",
       component: _resolve("views/iconDemo/index")
+    },
+    {
+      path: "/test",
+      name: "Test",
+      component: _resolve("views/Test/index")
     }
   ]
 });
