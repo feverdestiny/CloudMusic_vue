@@ -126,6 +126,25 @@
                     </div>
                   </div>
                 </td>
+                <td class="rank">
+                  <div class="f-cb">
+                    <div class="info">
+                      <span>
+                        <img class="rpic" src='http://p1.music.126.net/3QWpzsAFYtOE2US7IEEhjA==/109951163228311627.jpg?param=50y50&quality=100' />
+                      </span>
+                      <span class="ply"></span>
+                      <div class="name">
+                        <span class="text">Made In China (pecial Edition)</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td style="color:#666">
+                  <!-- <span> 02:51</span> -->
+                  <div >
+                    <a class="u-icon u-icon-10"></a>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -556,6 +575,48 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
           .w3 {
             width: 14%;
           }
+
+          .info {
+            float: left;
+            width: 100%;
+          }
+          .rpic {
+            float: left;
+            width: 50px;
+            height: 50px;
+            margin-right: 14px;
+          }
+          .ply {
+            margin-right: 8px;
+            margin-top: 17px;
+            float: left;
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+            background: $tableBg;
+
+            background-position: 0 -103px;
+          }
+          .name {
+            margin-top: 16px;
+            height: 18px;
+            margin-right: 20px;
+            .text {
+              position: relative;
+              display: inline-block;
+              padding-right: 25px;
+              margin-right: -25px;
+              max-width: 99%;
+              height: 20px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+              }
+            }
+          }
         }
         tbody {
           .event {
@@ -591,7 +652,7 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
                   background: $iconBg;
                   background-position: -18px -682px;
                 }
-                     .u-icon-10 {
+                .u-icon-10 {
                   display: block;
                   float: none;
                   margin: 0 auto;
@@ -603,23 +664,27 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
               }
             }
           }
+          .rank {
+            padding-top: 10px;
+            padding-bottom: 10px;
+          }
         }
       }
     }
   }
 }
-             .u-icon {
-                  float: left;
-                  display: inline-block;
-                  overflow: hidden;
-                  vertical-align: middle;
-                  margin: 9px 0 0 3px;
-                  width: 13px;
-                  height: 13px;
-                  background: $iconBg;
-                  background-position: -18px -682px;
-                }
-       
+.u-icon {
+  float: left;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: middle;
+  margin: 9px 0 0 3px;
+  width: 13px;
+  height: 13px;
+  background: $iconBg;
+  background-position: -18px -682px;
+}
+
 em,
 i {
   font-style: normal;
