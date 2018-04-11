@@ -52,7 +52,7 @@
           <div class="cnt">
             <div class="cntc ">
               <div class="dh f-cb">
-                <h2>云音乐飙升榜</h2>
+                <h2>{{topInfo.name}}</h2>
               </div>
               <div class="user f-cb">
                 <i class="u-icon"></i>
@@ -69,17 +69,23 @@
                 <div class="btni btni-add"></div>
                 <div class="btni btni-fav">
                   <i>
-                    (832749)
+                    ({{topInfo.subscribedCount}})
                   </i>
                 </div>
                 <div class="btni btni-share">
-                  <i>(445454)</i>
+                  <i>
+                    ({{topInfo.shareCount}})
+
+                  </i>
                 </div>
                 <div class="btni btni-dl">
                   <i>下载</i>
                 </div>
                 <div class="btni btni-cmmt">
-                  <i>1045454</i>
+                  <i>
+                    ({{topInfo.commentCount}})
+
+                  </i>
                 </div>
               </div>
             </div>
@@ -96,7 +102,7 @@
           <span class="sub">100首歌</span>
           <span class="more">
             播放：
-            <strong>9999999</strong>
+            <strong>{{topInfo.playCount}}</strong>
             次
           </span>
         </div>
@@ -117,10 +123,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="event">
+              <tr class="event" v-for="(item,index) in topInfo.topList" :key="index">
                 <td>
                   <div class="hd">
-                    <span class="num">1</span>
+                    <span class="num">{{index+1}}</span>
                     <div class="rk">
                       <span class="u-icon u-icon-10"></span>
                     </div>
@@ -130,19 +136,27 @@
                   <div class="f-cb">
                     <div class="info">
                       <span>
-                        <img class="rpic" src='http://p1.music.126.net/3QWpzsAFYtOE2US7IEEhjA==/109951163228311627.jpg?param=50y50&quality=100' />
+                        <img class="rpic" :src='item.al.picUrl' />
                       </span>
                       <span class="ply"></span>
                       <div class="name">
-                        <span class="text">Made In China (pecial Edition)</span>
+                        <span class="text">{{item.name}}</span>
                       </div>
                     </div>
                   </div>
                 </td>
                 <td style="color:#666">
-                  <!-- <span> 02:51</span> -->
-                  <div >
-                    <a class="u-icon u-icon-10"></a>
+                  <span> 02:51</span>
+                  <!-- <div>
+                    <a class="u-icon u-icon-81" title="添加到播放列表"></a>
+                    <a class="icn icn-fav" title="收藏"></a>
+                    <a class="icn icn-share" title="分享"></a>
+                    <a class="icn icn-dl" title="下载"></a>
+                  </div> -->
+                </td>
+                <td>
+                  <div class="tex">
+                    {{item.ar[0].name}}
                   </div>
                 </td>
               </tr>
@@ -160,8 +174,48 @@ export default {
   data() {
     return {
       featureList: feature,
-      globalList: global
+      globalList: global,
+
+      topInfo: {
+        name: "",
+        commentCount: 0, //评论数量
+        playCount: 0, //播放数量
+        shareCount: 0, //分享数量
+        subscribedCount: 0, //收藏数量
+        topList: []
+      }
     };
+  },
+  created() {
+    this.getTopList();
+  },
+  methods: {
+    async getTopList() {
+      const Res = await this.$http.get("/top/list", {
+        params: {
+          idx: 3
+        }
+      });
+      if (Res && Res.code === 200) {
+        console.log(Res);
+        let {
+          name,
+          commentCount,
+          playCount,
+          shareCount,
+          subscribedCount,
+          tracks
+        } = Res.playlist;
+        this.topInfo = {
+          name: name,
+          commentCount: commentCount, //评论数量
+          playCount: playCount, //播放数量
+          shareCount: shareCount, //分享数量
+          subscribedCount: subscribedCount, //收藏数量
+          topList: tracks
+        };
+      }
+    }
   }
 };
 </script>
@@ -184,15 +238,7 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
   border: 1px solid #d3d3d3;
   border-width: 0 1px;
   background: $wrapBg;
-  .u-icon-10 {
-    display: block;
-    float: none;
-    margin: 0 auto;
-    padding-left: 0;
-    width: 16px;
-    height: 17px;
-    background-position: -67px -283px;
-  }
+
   .u-icon {
     float: left;
     display: inline-block;
@@ -203,6 +249,26 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
     height: 13px;
     background: $iconBg;
     background-position: -18px -682px;
+  }
+  .u-icon-10 {
+    display: block;
+    float: none;
+    margin: 0 auto;
+    padding-left: 0;
+    width: 16px;
+    height: 17px;
+    background-position: -67px -283px;
+  }
+  .u-icon-81 {
+    float: left;
+    margin-top: 2px;
+    width: 13px;
+    height: 13px;
+    background-position: 0 -700px;
+    &:hover {
+      cursor: pointer;
+      background-position: -22px -700px;
+    }
   }
   .list-left {
     float: left;
@@ -596,6 +662,9 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
             background: $tableBg;
 
             background-position: 0 -103px;
+            &:hover {
+              background-position: 0 -128px;
+            }
           }
           .name {
             margin-top: 16px;
@@ -617,6 +686,34 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
               }
             }
           }
+          .icn {
+            float: left;
+            width: 18px;
+            height: 16px;
+            margin: 2px 0 0 4px;
+            overflow: hidden;
+            text-indent: -999px;
+            cursor: pointer;
+            background: $tableBg;
+          }
+          .icn-fav {
+            background-position: 0 -174px;
+            &:hover {
+              background-position: -20px -174px;
+            }
+          }
+          .icn-share {
+            background-position: 0 -195px;
+            &:hover {
+              background-position: -20px -195px;
+            }
+          }
+          .icn-dl {
+            background-position: -81px -174px;
+            &:hover {
+              background-position: -104px -174px;
+            }
+          }
         }
         tbody {
           .event {
@@ -627,6 +724,14 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
             padding: 6px 10px;
             line-height: 18px;
             text-align: left;
+            .tex {
+              width: 100%;
+              position: relative;
+              zoom: 1;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
             .hd {
               height: 18px;
               .num {
