@@ -123,7 +123,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="event" v-for="(item,index) in topInfo.topList" :key="index">
+              <tr :class="[index%2==0?'event':'']" v-for="(item,index) in topInfo.topList" :key="index">
                 <td>
                   <div class="hd">
                     <span class="num">{{index+1}}</span>
@@ -132,21 +132,27 @@
                     </div>
                   </div>
                 </td>
-                <td class="rank">
+                <td :class="index<3?'rank':''">
                   <div class="f-cb">
                     <div class="info">
-                      <span>
+                      <span v-show="index<3">
                         <img class="rpic" :src='item.al.picUrl' />
                       </span>
-                      <span class="ply"></span>
-                      <div class="name">
-                        <span class="text">{{item.name}}</span>
+                      <span @click="play(item)" :class="['ply',index<3?'imshow':'']"></span>
+                      <div :class="['name',index<3?'imshow':'']">
+                        <span class="text">
+                          <a>
+                            {{item.name}}
+                          </a>
+                          <span :title="item.alia[0]" v-show="item.alia.length>0" style="color: #aeaeae;">-({{item.alia[0]}})</span>
+                          <span v-show="item.mv!=0" title="播放" class="mv"></span>
+                        </span>
                       </div>
                     </div>
                   </div>
                 </td>
                 <td style="color:#666">
-                  <span> 02:51</span>
+                  <span> {{handerTime(item.dt)}}</span>
                   <!-- <div>
                     <a class="u-icon u-icon-81" title="添加到播放列表"></a>
                     <a class="icn icn-fav" title="收藏"></a>
@@ -170,12 +176,13 @@
 </template>
 <script>
 import { feature, global } from "./list.js";
+import { transTime } from "assets/utils.js";
+
 export default {
   data() {
     return {
       featureList: feature,
       globalList: global,
-
       topInfo: {
         name: "",
         commentCount: 0, //评论数量
@@ -190,11 +197,12 @@ export default {
     this.getTopList();
   },
   methods: {
+    play(data){
+            this.$store.dispatch("setSong", data);
+    },
     async getTopList() {
       const Res = await this.$http.get("/top/list", {
-        params: {
-          idx: 3
-        }
+        idx: 3
       });
       if (Res && Res.code === 200) {
         console.log(Res);
@@ -207,14 +215,17 @@ export default {
           tracks
         } = Res.playlist;
         this.topInfo = {
-          name: name,
-          commentCount: commentCount, //评论数量
-          playCount: playCount, //播放数量
-          shareCount: shareCount, //分享数量
-          subscribedCount: subscribedCount, //收藏数量
+          name,
+          commentCount, //评论数量
+          playCount, //播放数量
+          shareCount, //分享数量
+          subscribedCount, //收藏数量
           topList: tracks
         };
       }
+    },
+    handerTime(value) {
+      return transTime(value);
     }
   }
 };
@@ -654,7 +665,7 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
           }
           .ply {
             margin-right: 8px;
-            margin-top: 17px;
+
             float: left;
             width: 17px;
             height: 17px;
@@ -666,8 +677,10 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
               background-position: 0 -128px;
             }
           }
-          .name {
+          .imshow {
             margin-top: 16px;
+          }
+          .name {
             height: 18px;
             margin-right: 20px;
             .text {
@@ -680,9 +693,31 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
+              a {
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
               &:hover {
                 cursor: pointer;
-                text-decoration: underline;
+              }
+              .mv {
+                float: left;
+                position: absolute;
+                top: 0;
+                right: 0;
+                margin: 2px 0 0 4px;
+                overflow: hidden;
+                text-indent: -999px;
+                cursor: pointer;
+                background: $tableBg;
+                width: 23px;
+                height: 17px;
+                margin: 1px 0 0 0;
+                background-position: 0 -151px;
+                &:hover {
+                  background-position: -30px -151px;
+                }
               }
             }
           }
@@ -717,7 +752,10 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
         }
         tbody {
           .event {
-            background-color: #f7f7f7;
+            td {
+              background-color: #f7f7f7;
+              // background-color: red;
+            }
           }
           td {
             margin: 0;

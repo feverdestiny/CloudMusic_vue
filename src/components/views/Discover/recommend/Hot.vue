@@ -131,7 +131,7 @@
                       云音乐新歌榜
                     </h3>
                     <div class="title-btn">
-                      <a class="btn-py" >播放</a>
+                      <a class="btn-py">播放</a>
                       <a class="btn-sc"></a>
                     </div>
                   </div>
@@ -195,7 +195,7 @@
     </div>
     <div class="m-hot-right">
 
-     <div class="m-myinfo m-myinfo-1 sg sg1">
+      <div class="m-myinfo m-myinfo-1 sg sg1">
         <p class="note">
           登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机
         </p>
@@ -204,14 +204,14 @@
       <div class="m-signer">
         <h3 class="hd3">
           <span style="float:left">热门歌手</span>
-          <a >查看全部 ></a>
+          <a>查看全部 ></a>
         </h3>
       </div>
       <ul class="m-enter f-cb">
         <li v-for="(item,index) in artistsList" :key="index">
           <a class="item">
             <div class="head">
-              <img :src='item.img1v1Url'/>
+              <img :src='item.img1v1Url' />
             </div>
             <div class="ifo">
               <h4>
@@ -221,8 +221,7 @@
             </div>
           </a>
         </li>
-  
-        
+
       </ul>
       <div>
         <a class="m-btn2 btn2-1">
@@ -336,10 +335,8 @@ export default {
   methods: {
     async getArtists() {
       const Res = await this.$http.get("/top/artists", {
-        params: {
-          offset: 0,
-          limit: 5
-        }
+        offset: 0,
+        limit: 5
       });
       if (Res && Res.code === 200) {
         this.artistsList = Res.artists;
@@ -367,10 +364,8 @@ export default {
      */
     async getAlbum() {
       const Res = await this.$http.get("/top/album", {
-        params: {
-          offset: 0,
-          limit: 10
-        }
+        offset: 0,
+        limit: 10
       });
       if (Res && Res.code === 200) {
         this.albumList = Res.albums.slice(0, 5).map(item => {
@@ -383,9 +378,7 @@ export default {
     async getTop(idx) {
       let data = [];
       const Res = await this.$http.get("/top/list", {
-        params: {
-          idx: idx
-        }
+        idx: idx
       });
       if (Res && Res.code === 200) {
         data = Res.playlist.tracks.slice(0, 10).map(item => {
@@ -873,7 +866,7 @@ export default {
       }
     }
   }
- .m-hot-right {
+  .m-hot-right {
     position: relative;
     float: right;
     width: 250px;

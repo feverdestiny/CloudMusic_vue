@@ -78,6 +78,7 @@
 
 <script>
 import vueSlider from "vue-slider-component";
+import {transTime} from "assets/utils.js";
 export default {
   data() {
     return {
@@ -112,7 +113,7 @@ export default {
      */
     timeLineChange(val) {
       console.log("change");
-      this.currentTime = this.transTime(
+      this.currentTime = transTime(
         val / 100 * this.$refs.songPlay.duration
       );
     },
@@ -162,8 +163,8 @@ export default {
         document.title = `▶ ${this.songInfo.name}`;
         this.isplay = true;
         this.update = setInterval(() => {
-          this.duration = this.transTime(this.$refs.songPlay.duration || 0);
-          this.currentTime = this.transTime(this.$refs.songPlay.currentTime);
+          this.duration = transTime(this.$refs.songPlay.duration || 0);
+          this.currentTime = transTime(this.$refs.songPlay.currentTime);
           this.setBuffPrgress();
           this.setPrgress();
         }, 1000 / 60);
@@ -229,24 +230,24 @@ export default {
       this.play = false;
     },
 
-    /**
-     * 时间格式化
-     */
-    transTime(time) {
-      let duration = parseInt(time);
-      let minute = parseInt(duration / 60);
-      let sec = duration % 60 + "";
-      let isM0 = ":";
-      if (minute == 0) {
-        minute = "00";
-      } else if (minute < 10) {
-        minute = "0" + minute;
-      }
-      if (sec.length == 1) {
-        sec = "0" + sec;
-      }
-      return minute + isM0 + sec;
-    }
+    // /**
+    //  * 时间格式化
+    //  */
+    // transTime(time) {
+    //   let duration = parseInt(time);
+    //   let minute = parseInt(duration / 60);
+    //   let sec = duration % 60 + "";
+    //   let isM0 = ":";
+    //   if (minute == 0) {
+    //     minute = "00";
+    //   } else if (minute < 10) {
+    //     minute = "0" + minute;
+    //   }
+    //   if (sec.length == 1) {
+    //     sec = "0" + sec;
+    //   }
+    //   return minute + isM0 + sec;
+    // }
   },
   computed: {
     songInfo() {
