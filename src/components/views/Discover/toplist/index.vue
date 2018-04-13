@@ -136,7 +136,7 @@
                   <div class="f-cb">
                     <div class="info">
                       <span v-show="index<3">
-                        <img class="rpic" :src='item.al.picUrl' />
+                        <img class="rpic" :src='item.album.picUrl' />
                       </span>
                       <span @click="play(item)" :class="['ply',index<3?'imshow':'']"></span>
                       <div :class="['name',index<3?'imshow':'']">
@@ -144,15 +144,16 @@
                           <a>
                             {{item.name}}
                           </a>
-                          <span :title="item.alia[0]" v-show="item.alia.length>0" style="color: #aeaeae;">-({{item.alia[0]}})</span>
-                          <span v-show="item.mv!=0" title="播放" class="mv"></span>
+                          <span :title="item.alias[0]" v-show="item.alias.length>0" style="color: #aeaeae;">-({{item.alias[0]}})</span>
+                          <span v-show="item.mvid!=0" title="播放" class="mv"></span>
                         </span>
                       </div>
                     </div>
                   </div>
                 </td>
                 <td style="color:#666">
-                  <span> {{handerTime(item.dt)}}</span>
+                  <span>{{item.duration |timeFliter}}</span>
+                  <!-- <span> {{handerTime(item.duration)}}</span> -->
                   <!-- <div>
                     <a class="u-icon u-icon-81" title="添加到播放列表"></a>
                     <a class="icn icn-fav" title="收藏"></a>
@@ -162,7 +163,7 @@
                 </td>
                 <td>
                   <div class="tex">
-                    {{item.ar[0].name}}
+                    {{item.artists[0].name}}
                   </div>
                 </td>
               </tr>
@@ -197,12 +198,12 @@ export default {
     this.getTopList();
   },
   methods: {
-    play(data){
-            this.$store.dispatch("setSong", data);
+    play(data) {
+      this.$store.dispatch("setSong", data);
     },
     async getTopList() {
-      const Res = await this.$http.get("/top/list", {
-        idx: 3
+      const Res = await this.$http.get("/playlist/detail", {
+        id: 19723756
       });
       if (Res && Res.code === 200) {
         console.log(Res);
@@ -213,7 +214,7 @@ export default {
           shareCount,
           subscribedCount,
           tracks
-        } = Res.playlist;
+        } = Res.result;
         this.topInfo = {
           name,
           commentCount, //评论数量
