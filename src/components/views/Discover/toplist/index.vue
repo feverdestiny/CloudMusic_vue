@@ -123,12 +123,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr :class="[index%2==0?'event':'']" v-for="(item,index) in topInfo.topList" :key="index">
+              <tr :class="[index%2==0?'event':'']" v-for="(item,index) in topInfo.topList" :key="index" @mouseenter='mouseenter(item)' @mouseleave='mouseleave(item)'>
                 <td>
                   <div class="hd">
                     <span class="num">{{index+1}}</span>
                     <div class="rk">
-                      <span class="u-icon u-icon-10"></span>
+                      <span :class="['u-icon u-icon-10',item.rank==0?'u-icon-10':item.rank==1?'u-icon-12':'u-icon-11'] ">{{item.rankNumber}}</span>
                     </div>
                   </div>
                 </td>
@@ -144,22 +144,22 @@
                           <a>
                             {{item.name}}
                           </a>
-                          <span :title="item.alias[0]" v-show="item.alias.length>0" style="color: #aeaeae;">-({{item.alias[0]}})</span>
+                          <span :title="item.alias[0]" v-show="item.alias.length>0" style="color: #aeaeae;">-&nbsp;({{item.alias[0]}})</span>
                           <span v-show="item.mvid!=0" title="播放" class="mv"></span>
                         </span>
                       </div>
                     </div>
                   </div>
                 </td>
-                <td style="color:#666">
-                  <span>{{item.duration |timeFliter}}</span>
+                <td style="color:#666" :class="[item.playShow?'playshow':'']">
+                  <span v-show="!item.playShow">{{item.duration |timeFliter}}</span>
                   <!-- <span> {{handerTime(item.duration)}}</span> -->
-                  <!-- <div>
+                  <div style="float:left" v-show="item.playShow">
                     <a class="u-icon u-icon-81" title="添加到播放列表"></a>
                     <a class="icn icn-fav" title="收藏"></a>
                     <a class="icn icn-share" title="分享"></a>
                     <a class="icn icn-dl" title="下载"></a>
-                  </div> -->
+                  </div>
                 </td>
                 <td>
                   <div class="tex">
@@ -191,7 +191,8 @@ export default {
         shareCount: 0, //分享数量
         subscribedCount: 0, //收藏数量
         topList: []
-      }
+      },
+      rank: 0
     };
   },
   created() {
@@ -215,18 +216,47 @@ export default {
           subscribedCount,
           tracks
         } = Res.result;
+
         this.topInfo = {
           name,
           commentCount, //评论数量
           playCount, //播放数量
           shareCount, //分享数量
           subscribedCount, //收藏数量
-          topList: tracks
+          topList: this.setRank(tracks)
         };
+        console.log(this.topInfo.topList);
       }
     },
     handerTime(value) {
       return transTime(value);
+    },
+    setRank(tracks) {
+      let newTracks = tracks.map((item, index) => {
+        if (item.lastRank) {
+          let net = index;
+          if (net > item.lastRank) {
+            item.rankNumber = net - item.lastRank;
+            item.rank = 1;
+          } else {
+            item.rankNumber = item.lastRank - net;
+            item.rank = 2;
+          }
+          item.playShow = false;
+        } else {
+          item.rankNumber = "";
+          item.rank = 0;
+        }
+
+        return item;
+      });
+      return newTracks;
+    },
+    mouseenter(data) {
+      data.playShow = true;
+    },
+    mouseleave(data) {
+      data.playShow = false;
     }
   }
 };
@@ -689,7 +719,7 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
               display: inline-block;
               padding-right: 25px;
               margin-right: -25px;
-              max-width: 99%;
+              max-width: 92%;
               height: 20px;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -805,12 +835,31 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
                   height: 17px;
                   background-position: -67px -283px;
                 }
+                .u-icon-11 {
+                  color: #bb2128;
+                  padding-left: 8px;
+                  line-height: 17px;
+                  font-size: 10px;
+                  font-family: Arial, Helvetica, sans-serif;
+                  background-position: -74px -299px;
+                }
+                .u-icon-12 {
+                  color: #bb2128;
+                  padding-left: 8px;
+                  line-height: 17px;
+                  font-size: 10px;
+                  font-family: Arial, Helvetica, sans-serif;
+                  background-position: -74px -318px;
+                }
               }
             }
           }
           .rank {
             padding-top: 10px;
             padding-bottom: 10px;
+          }
+          .playshow {
+            padding: 6px 0px;
           }
         }
       }
