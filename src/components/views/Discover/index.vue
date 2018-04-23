@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="cm-subnav">
-      <div>1231aasdass231232</div>
+      <div>1231aasdas1232</div>
       <div class="cm-wrap f-pr">
         <ul class="nav">
           <li v-for="(item,index) in navList" :key="index">
