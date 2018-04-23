@@ -23,6 +23,7 @@
         </ul> 
         <h2 style="margin-top:20px;">
           全球媒体榜
+          
         </h2>
         <ul class="f-cb">
           <li v-for="(item,index) in globalList" @click="pushTop(item.id)" :key="index">
