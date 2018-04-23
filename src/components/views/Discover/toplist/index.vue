@@ -6,7 +6,7 @@
           云音乐特色榜
         </h2>
         <ul class="f-cb">
-          <li v-for="(item,index) in featureList" :key="index">
+          <li v-for="(item,index) in featureList" @click="pushTop(item.id)" :key="index">
             <div class="item f-cb">
               <div class="left">
                 <a class="avatar">
@@ -20,12 +20,12 @@
               <div class="ntime">{{item.time}}</div>
             </div>
           </li>
-        </ul>
+        </ul> 
         <h2 style="margin-top:20px;">
           全球媒体榜
         </h2>
         <ul class="f-cb">
-          <li v-for="(item,index) in globalList" :key="index">
+          <li v-for="(item,index) in globalList" @click="pushTop(item.id)" :key="index">
             <div class="item f-cb">
               <div class="left">
                 <a class="avatar">
@@ -184,6 +184,7 @@ export default {
     return {
       featureList: feature,
       globalList: global,
+      topId: 19723756,
       topInfo: {
         name: "",
         commentCount: 0, //评论数量
@@ -195,16 +196,34 @@ export default {
       rank: 0
     };
   },
+  watch: {
+    $route(to, from) {
+      this.init();
+    }
+  },
   created() {
-    this.getTopList();
+    this.init();
   },
   methods: {
+    init() {
+      const route = this.$route;
+      if (route.query.id) this.topId = route.query.id;
+      this.getTopList();
+    },
+    pushTop(id) {
+      this.$router.push({
+        path: "toplist",
+        query: {
+          id: id
+        }
+      });
+    },
     play(data) {
       this.$store.dispatch("setSong", data);
     },
     async getTopList() {
       const Res = await this.$http.get("/playlist/detail", {
-        id: 19723756
+        id: this.topId
       });
       if (Res && Res.code === 200) {
         console.log(Res);
