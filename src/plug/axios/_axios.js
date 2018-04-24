@@ -1,8 +1,7 @@
-import axios from "axios";
-
+import _AXIOS from "./index";
 const _AXIOSPLUGIN = {};
 _AXIOSPLUGIN.install = (Vue, options) => {
-  let _AXIOS = axios.create(options);
+
   Vue.prototype.$axios = _AXIOS;
   Vue.prototype.$http = {
     get: (url, data, options) => {
@@ -28,29 +27,6 @@ _AXIOSPLUGIN.install = (Vue, options) => {
       return _AXIOS(axiosOpt);
     }
   };
-
-  _AXIOS.interceptors.request.use(config => {
-    config.url = "api" + config.url;
-    return config;
-  });
-
-  _AXIOS.interceptors.response.use(
-    response => {
-      let res = response.data;
-      switch (response.status) {
-        case 200:
-          res = response.data;
-          break;
-
-        default:
-          break;
-      }
-      return res;
-    },
-    err => {
-      return Promise.reject(err);
-    }
-  );
 };
 
 export default _AXIOSPLUGIN;
