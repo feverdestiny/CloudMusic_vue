@@ -78,7 +78,7 @@
 
 <script>
 import vueSlider from "vue-slider-component";
-import {transTime} from "assets/utils.js";
+import { transTime } from "assets/utils.js";
 export default {
   data() {
     return {
@@ -113,9 +113,7 @@ export default {
      */
     timeLineChange(val) {
       console.log("change");
-      this.currentTime = transTime(
-        val / 100 * this.$refs.songPlay.duration
-      );
+      this.currentTime = transTime(val / 100 * this.$refs.songPlay.duration);
     },
 
     /**
@@ -159,6 +157,7 @@ export default {
      */
     playeMusic() {
       this.$nextTick(() => {
+        clearInterval(this.update);
         this.$refs.songPlay.play();
         document.title = `▶ ${this.songInfo.name}`;
         this.isplay = true;
@@ -228,7 +227,7 @@ export default {
     ended() {
       clearInterval(this.update);
       this.play = false;
-    },
+    }
 
     // /**
     //  * 时间格式化

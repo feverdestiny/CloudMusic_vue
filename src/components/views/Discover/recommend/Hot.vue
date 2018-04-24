@@ -344,7 +344,7 @@ export default {
     },
     musicPlay(data) {
       console.log(data);
-      this.$store.dispatch("setSong", data);
+      this.$store.dispatch("setSong", data.id);
     },
     /**
      * 热门推荐

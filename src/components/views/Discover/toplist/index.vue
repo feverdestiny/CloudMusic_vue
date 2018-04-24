@@ -20,10 +20,10 @@
               <div class="ntime">{{item.time}}</div>
             </div>
           </li>
-        </ul> 
+        </ul>
         <h2 style="margin-top:20px;">
           全球媒体榜
-          
+
         </h2>
         <ul class="f-cb">
           <li v-for="(item,index) in globalList" @click="pushTop(item.id)" :key="index">
@@ -124,7 +124,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr :class="[index%2==0?'event':'']" v-for="(item,index) in topInfo.topList" :key="index" @mouseenter='mouseenter(item)' @mouseleave='mouseleave(item)'>
+              <tr :class="[index%2==0?'event':'']" v-for="(item,index) in topList" :key="index" @mouseenter='mouseenter(item)' @mouseleave='mouseleave(item)'>
                 <td>
                   <div class="hd">
                     <span class="num">{{index+1}}</span>
@@ -153,6 +153,7 @@
                   </div>
                 </td>
                 <td style="color:#666" :class="[item.playShow?'playshow':'']">
+
                   <span v-show="!item.playShow">{{item.duration |timeFliter}}</span>
                   <!-- <span> {{handerTime(item.duration)}}</span> -->
                   <div style="float:left" v-show="item.playShow">
@@ -191,9 +192,9 @@ export default {
         commentCount: 0, //评论数量
         playCount: 0, //播放数量
         shareCount: 0, //分享数量
-        subscribedCount: 0, //收藏数量
-        topList: []
+        subscribedCount: 0 //收藏数量
       },
+      topList: [],
       rank: 0
     };
   },
@@ -220,7 +221,7 @@ export default {
       });
     },
     play(data) {
-      this.$store.dispatch("setSong", data);
+      this.$store.dispatch("setSong", data.id);
     },
     async getTopList() {
       const Res = await this.$http.get("/playlist/detail", {
@@ -242,10 +243,10 @@ export default {
           commentCount, //评论数量
           playCount, //播放数量
           shareCount, //分享数量
-          subscribedCount, //收藏数量
-          topList: this.setRank(tracks)
+          subscribedCount //收藏数量
         };
-        console.log(this.topInfo.topList);
+        this.topList = this.setRank(tracks);
+        console.log(this.topList);
       }
     },
     handerTime(value) {
@@ -274,9 +275,11 @@ export default {
     },
     mouseenter(data) {
       data.playShow = true;
+      console.log("进入：", data.playShow);
     },
     mouseleave(data) {
       data.playShow = false;
+      console.log("离开", data.playShow);
     }
   }
 };
