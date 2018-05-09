@@ -76,7 +76,6 @@
                 <div class="btni btni-share">
                   <i>
                     ({{topInfo.shareCount}})
-
                   </i>
                 </div>
                 <div class="btni btni-dl">
@@ -171,6 +170,20 @@
               </tr>
             </tbody>
           </table>
+        </div>
+        <div class="cmt">
+          <div class="title f-cb">
+            <h3>评论</h3>
+            <span class="cub">共452条评论</span>
+          </div>
+          <div class="m-cmt">
+            <div class="m-input">
+              <div class="head">
+                <img src='http://s4.music.126.net/style/web2/img/default/default_avatar.jpg?param=50y50'>
+              </div>
+              <div class="content"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -883,6 +896,34 @@ $tableBg: url("../../../../assets/images/table.png")no-repeat 0 9999px;
           }
           .playshow {
             padding: 6px 0px;
+          }
+        }
+      }
+      .cmt {
+        margin-top: 40px;
+        h3 {
+          float: left;
+        }
+        .cub {
+          float: left;
+          color: #666;
+          margin: 9px 0 0 20px;
+        }
+        .m-cmt {
+          margin-top: 20px;
+          .m-input {
+            display: flex;
+            margin-bottom: 20px;
+            .head {
+              width: 50px;
+              img {
+                width: 50px;
+                height: 50px;
+              }
+            }
+            .content {
+              flex: 1;
+            }
           }
         }
       }
