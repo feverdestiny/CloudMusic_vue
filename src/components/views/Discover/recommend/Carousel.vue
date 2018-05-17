@@ -1,24 +1,30 @@
 <template>
-  <div class="wrap">
-    <div class="ban f-pr">
-      <img class="" v-show="showImg(index)" v-for="(item,index) in imgList" :key="index" :src='item.img' />
-      <a class="btnl" @click='setActive(1)'>
-        <base-icon icon="arrow" />
-      </a>
-      <a class="btnr" @click='setActive(0)'>
-        <base-icon icon="arrow" />
-      </a>
-      <div class="dot">
-        <a :class="['pg',index===activeImage?'pgActive':'']" v-for="(item,index) in imgList" :key="index" @click="setNewActive(index)">
-          <base-icon icon="dian" />
+  <div :style="wrapStyle">
+    <div class="wrap">
+      <div class="ban f-pr">
+        <img class="" v-show="showImg(index)" v-for="(item,index) in imgList" :key="index" :src='item.picUrl' />
+        <a class="btnl" @click='setActive(1)'>
+          <base-icon icon="arrow" />
         </a>
-      </div>
-      <div class="dow">
-        <a class="btn">asd</a>
-        <p> PC 安卓 iPhone WP iPad Mac 六大客户端</p>
+        <a class="btnr" @click='setActive(0)'>
+          <base-icon icon="arrow" />
+        </a>
+        <div class="dot">
+          <a :class="['pg',index===activeImage?'pgActive':'']" v-for="(item,index) in imgList" :key="index" @click="setNewActive(index)">
+            <base-icon icon="dian" />
+          </a>
+        </div>
+        <div class="dow">
+          <a class="btn">asd</a>
+          <p> PC 安卓 iPhone WP iPad Mac 六大客户端</p>
+          <span class="shadow"></span>
+          <span class="shadowr"></span>
+
+        </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -27,35 +33,32 @@ export default {
     return {
       name: "Carousel", //轮播图
       activeImage: 0,
-      imgList: [
-        {
-          img: require("assets/images/img1.png")
-        },
-        {
-          img: require("assets/images/img2.png")
-        },
-        {
-          img: require("assets/images/img3.png")
-        },
-        {
-          img: require("assets/images/img4.png")
-        },
-        {
-          img: require("assets/images/img5.png")
-        },
-        {
-          img: require("assets/images/img6.png")
-        },
-        {
-          img: require("assets/images/img7.png")
-        },
-        {
-          img: require("assets/images/img8.png")
-        }
-      ]
+      imgList: []
     };
   },
+  computed: {
+    wrapStyle() {
+      if (this.imgList.length > 0)
+        return {
+          backgroundImage: `url(${
+            this.imgList[this.activeImage].backgroundUrl
+          })`,
+          backgroundRepeat: "repeat-x"
+        };
+      return {};
+    }
+  },
+  created() {
+    this.getBanner();
+  },
   methods: {
+    async getBanner() {
+      const Res = await this.$http.get("/banner");
+      console.log("banner:", Res);
+      if (Res.code == 200) {
+        this.imgList = Res.banners;
+      }
+    },
     asd() {},
     showImg(index) {
       if (this.activeImage === index) return true;
@@ -114,6 +117,7 @@ export default {
       height: 63px;
       font-size: 40px;
       line-height: 63px; // text-indent: -9999px;
+      color: #fff;
       &:hover {
         background: rgba(53, 53, 53, 0.28);
       }
@@ -130,6 +134,7 @@ export default {
       height: 63px;
       font-size: 40px;
       line-height: 63px; // text-indent: -9999px;
+          color: #fff;
       &:hover {
         background: rgba(53, 53, 53, 0.28);
       }
@@ -165,12 +170,12 @@ export default {
       width: 254px;
       height: 336px;
       background: url("../../../../assets/images/download.png");
-      -moz-box-shadow: 10px 0px 20px rgba(51, 51, 51, 0.4),
-        -10px 0px 20px rgba(51, 51, 51, 0.4);
-      -webkit-box-shadow: 10px 0px 20px rgba(51, 51, 51, 0.4),
-        -10px 0px 20px rgba(51, 51, 51, 0.4);
-      box-shadow: 10px 0px 20px rgba(51, 51, 51, 0.4),
-        -10px 0px 20px rgba(51, 51, 51, 0.4);
+      // -moz-box-shadow: 10px 0px 20px rgba(51, 51, 51, 0.4),
+      //   -10px 0px 20px rgba(51, 51, 51, 0.4);
+      // -webkit-box-shadow: 10px 0px 20px rgba(51, 51, 51, 0.4),
+      //   -10px 0px 20px rgba(51, 51, 51, 0.4);
+      // box-shadow: 10px 0px 20px rgba(51, 51, 51, 0.4),
+      //   -10px 0px 20px rgba(51, 51, 51, 0.4);
       .btn {
         display: block;
         width: 215px;
@@ -181,7 +186,8 @@ export default {
 
         &:hover {
           cursor: pointer;
-          background: url("../../../../assets/images/download.png")no-repeat 0 0;
+          background: url("../../../../assets/images/download.png") no-repeat 0
+            0;
           background-position: 0 -340px;
           text-decoration: none;
         }
@@ -191,6 +197,29 @@ export default {
         margin: 10px auto;
         text-align: center;
         color: #8d8d8d;
+      }
+
+      .shadow {
+        display: block;
+        _display: none;
+        position: absolute;
+        top: 0;
+        left: -20px;
+        width: 20px;
+        height: 336px;
+        background: url("../../../../assets/images/banner.png") no-repeat 0;
+        background-position: -1px 0;
+      }
+      .shadowr {
+        display: block;
+        position: absolute;
+        top: 0;
+        width: 20px;
+        height: 336px;
+        left: auto;
+        right: -20px;
+        background: url("../../../../assets/images/banner.png") no-repeat 0;
+        background-position: -20px 0;
       }
     }
   }
